@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+
+/*
+ * Design system — Maison Saint-Jules
+ * -----------------------------------
+ * Jeu de tokens initial (Tailwind v4, approche CSS-first). Palette sobre et
+ * premium destinée à un établissement 5 étoiles : encre profonde, ivoire chaud,
+ * accent laiton. Ces valeurs sont un point de départ : elles pourront évoluer
+ * lorsque la direction artistique définitive sera arrêtée.
+ */
+@theme {
+  /* Neutres — encre & ivoire */
+  --color-ink-50: #f6f6f4;
+  --color-ink-100: #e9e8e3;
+  --color-ink-200: #cfcdc4;
+  --color-ink-300: #a9a69a;
+  --color-ink-400: #7c7a70;
+  --color-ink-500: #55534c;
+  --color-ink-600: #3d3b36;
+  --color-ink-700: #2a2925;
+  --color-ink-800: #1a1a17;
+  --color-ink-900: #0f0f0d;
+  --color-ink-950: #080807;
+
+  --color-ivory: #f7f3ea;
+  --color-ivory-muted: #efe9db;
+
+  /* Accent — laiton / or feutré */
+  --color-brass-300: #e6cfa2;
+  --color-brass-400: #d4b57e;
+  --color-brass-500: #c39b57;
+  --color-brass-600: #a67f3f;
+  --color-brass-700: #866531;
+
+  /* Typographie */
+  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Rayons */
+  --radius-xs: 0.125rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100dvh;
+    background-color: var(--color-ivory);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+}

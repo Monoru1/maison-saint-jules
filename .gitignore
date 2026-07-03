@@ -1,0 +1,39 @@
+# Dépendances
+node_modules/
+.pnp
+.pnp.js
+
+# Build / sortie
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environnement (secrets) — ne jamais committer
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Cache & tooling
+.cache/
+coverage/
+.eslintcache
+.tmp/
+*.tsbuildinfo
+
+# Éditeurs / OS
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
