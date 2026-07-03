@@ -1,0 +1,3 @@
+# Les pages pré-rendues (/, /reservation) sont servies comme fichiers statiques.
+# Toute autre route (dont /admin/*) retombe sur le SPA côté client.
+/*    /index.html    200

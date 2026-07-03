@@ -3,43 +3,59 @@
 /*
  * Design system — Maison Saint-Jules
  * -----------------------------------
- * Jeu de tokens initial (Tailwind v4, approche CSS-first). Palette sobre et
- * premium destinée à un établissement 5 étoiles : encre profonde, ivoire chaud,
- * accent laiton. Ces valeurs sont un point de départ : elles pourront évoluer
- * lorsque la direction artistique définitive sera arrêtée.
+ * Tokens de marque (Tailwind v4, CSS-first). Palette « palace discret » :
+ * noir profond, ivoire, pierre, champagne/laiton, vert forêt.
+ * Correspondance sémantique :
+ *   noir           → ink-900        vert forêt     → foret-800
+ *   ivoire         → ivory          champagne/laiton → brass-500
+ *   pierre         → pierre
+ * Titres : Playfair Display. Textes : Inter.
  */
 @theme {
-  /* Neutres — encre & ivoire */
-  --color-ink-50: #f6f6f4;
-  --color-ink-100: #e9e8e3;
-  --color-ink-200: #cfcdc4;
-  --color-ink-300: #a9a69a;
-  --color-ink-400: #7c7a70;
-  --color-ink-500: #55534c;
-  --color-ink-600: #3d3b36;
-  --color-ink-700: #2a2925;
-  --color-ink-800: #1a1a17;
-  --color-ink-900: #0f0f0d;
-  --color-ink-950: #080807;
+  /* Neutres chauds (dérivés du noir #0E0E0E vers l'ivoire #F3F0E8) */
+  --color-ink-50: #f3f0e8;
+  --color-ink-100: #e7e3d9;
+  --color-ink-200: #cfcabb;
+  --color-ink-300: #a8a395;
+  --color-ink-400: #7f7a6e;
+  --color-ink-500: #5a564f;
+  --color-ink-600: #403d38;
+  --color-ink-700: #2a2825;
+  --color-ink-800: #181716;
+  --color-ink-900: #0e0e0e;
+  --color-ink-950: #070707;
 
-  --color-ivory: #f7f3ea;
-  --color-ivory-muted: #efe9db;
+  /* Ivoire */
+  --color-ivory: #f3f0e8;
+  --color-ivory-muted: #ebe7db;
 
-  /* Accent — laiton / or feutré */
-  --color-brass-300: #e6cfa2;
-  --color-brass-400: #d4b57e;
-  --color-brass-500: #c39b57;
-  --color-brass-600: #a67f3f;
-  --color-brass-700: #866531;
+  /* Pierre / marbre clair */
+  --color-pierre: #cbbfa8;
+  --color-pierre-light: #ddd4c2;
+
+  /* Champagne / laiton — accent */
+  --color-brass-300: #ddca9c;
+  --color-brass-400: #ccb37c;
+  --color-brass-500: #b89a5b;
+  --color-brass-600: #9c8049;
+  --color-brass-700: #7c6539;
+
+  /* Vert forêt / jardin */
+  --color-foret-900: #14201a;
+  --color-foret-800: #1f2f24;
+  --color-foret-700: #294032;
+  --color-foret-600: #365240;
 
   /* Typographie */
-  --font-display: 'Cormorant Garamond', ui-serif, Georgia, serif;
+  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
   --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 
-  /* Rayons */
-  --radius-xs: 0.125rem;
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
+  /* Rayons (sobriété : angles quasi nets) */
+  --radius-sm: 0.0625rem;
+  --radius-md: 0.1875rem;
+
+  /* Courbe d'animation « feutrée » */
+  --ease-suave: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @layer base {
@@ -50,6 +66,21 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+    /* Décalage pour l'ancrage sous la barre de navigation fixe */
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 
   body {
@@ -58,15 +89,53 @@
     background-color: var(--color-ivory);
     color: var(--color-ink-900);
     font-family: var(--font-sans);
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
   h2,
-  h3 {
+  h3,
+  h4 {
     font-family: var(--font-display);
     font-weight: 500;
     letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+
+  ::selection {
+    background-color: var(--color-brass-500);
+    color: var(--color-ink-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brass-500);
+    outline-offset: 3px;
+  }
+}
+
+@layer base {
+  /* Révélation au défilement — active uniquement si JavaScript est présent. */
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(1.5rem);
+    transition:
+      opacity 900ms var(--ease-suave),
+      transform 900ms var(--ease-suave);
+    will-change: opacity, transform;
+  }
+
+  .js [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .js [data-reveal] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }

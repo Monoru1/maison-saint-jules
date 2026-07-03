@@ -1,17 +1,26 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot, hydrateRoot } from 'react-dom/client';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
-import { App } from '@/App';
+import { routes } from '@/routes';
 import '@/styles/globals.css';
 
 const rootElement = document.getElementById('root');
-
 if (!rootElement) {
   throw new Error("[main] Élément racine '#root' introuvable dans index.html.");
 }
 
-createRoot(rootElement).render(
+const router = createBrowserRouter(routes);
+
+const app = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <RouterProvider router={router} />
+  </StrictMode>
 );
+
+// Hydrate le HTML pré-rendu (SSG) s'il est présent, sinon rend depuis zéro (dev).
+if (rootElement.hasChildNodes()) {
+  hydrateRoot(rootElement, app);
+} else {
+  createRoot(rootElement).render(app);
+}
