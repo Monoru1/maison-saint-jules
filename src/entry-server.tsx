@@ -7,7 +7,8 @@ import {
 } from 'react-router-dom';
 
 import { ROUTES } from '@/config/routes';
-import { pageMeta } from '@/config/seo';
+import { pageMeta, suiteMeta } from '@/config/seo';
+import { suites } from '@/hotel/data';
 import { routes } from '@/routes';
 
 export interface PrerenderRoute {
@@ -20,6 +21,11 @@ export interface PrerenderRoute {
 export const prerenderRoutes: readonly PrerenderRoute[] = [
   { path: ROUTES.home, ...pageMeta.home },
   { path: ROUTES.reservation, ...pageMeta.reservation },
+  { path: ROUTES.suites, ...pageMeta.suites },
+  ...suites.map((suite) => ({
+    path: ROUTES.suiteDetail(suite.slug),
+    ...suiteMeta(suite),
+  })),
 ];
 
 /** Rend une route en chaîne HTML pour le pré-rendu statique. */

@@ -1,14 +1,11 @@
+import { SuiteCard } from '@/components/suites';
 import { ArrowLink } from '@/components/ui/ArrowLink';
 import { Container } from '@/components/ui/Container';
-import { Media } from '@/components/ui/Media';
-import { Reveal } from '@/components/ui/Reveal';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { HOME_SECTIONS, ROUTES } from '@/config/routes';
 import { suites } from '@/hotel/data';
-import type { Suite } from '@/hotel/types';
-import { formatPrice } from '@/utils/format';
 
-/** Aperçu des trois catégories d'hébergement. */
+/** Aperçu des hébergements sur la page d'accueil. */
 export function Suites() {
   return (
     <section
@@ -32,47 +29,11 @@ export function Suites() {
             <SuiteCard key={suite.id} suite={suite} delay={index * 100} />
           ))}
         </div>
+
+        <div className="mt-14 text-center">
+          <ArrowLink href={ROUTES.suites}>Voir toutes les suites</ArrowLink>
+        </div>
       </Container>
     </section>
-  );
-}
-
-function SuiteCard({ suite, delay }: { suite: Suite; delay: number }) {
-  return (
-    <Reveal as="article" delay={delay} className="group flex flex-col">
-      <div className="overflow-hidden">
-        <Media
-          src={suite.image}
-          alt={suite.name}
-          aspect="aspect-[4/5]"
-          className="transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.04]"
-        />
-      </div>
-      <div className="mt-6 flex flex-1 flex-col">
-        <div className="text-ink-400 flex items-center gap-3 font-sans text-[0.7rem] tracking-[0.2em] uppercase">
-          <span>{suite.area} m²</span>
-          <span aria-hidden="true">·</span>
-          <span>
-            {suite.guests} {suite.guests > 1 ? 'personnes' : 'personne'}
-          </span>
-        </div>
-        <h3 className="font-display text-ink-900 mt-3 text-2xl">
-          {suite.name}
-        </h3>
-        <p className="text-ink-500 mt-2 text-sm italic">{suite.tagline}</p>
-        <p className="text-ink-600 mt-4 flex-1 text-sm leading-relaxed">
-          {suite.description}
-        </p>
-        <div className="border-ink-200/70 mt-6 flex items-center justify-between border-t pt-5">
-          <span className="text-ink-800 font-sans text-sm">
-            À partir de{' '}
-            <span className="text-brass-600 font-medium">
-              {formatPrice(suite.priceFrom)}
-            </span>
-          </span>
-          <ArrowLink href={ROUTES.reservation}>Réserver</ArrowLink>
-        </div>
-      </div>
-    </Reveal>
   );
 }

@@ -17,11 +17,7 @@ export function Restaurant() {
       <Container>
         <div className="grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
           <Reveal>
-            <Media
-              src={restaurant.image}
-              alt={`Table dressée au restaurant ${restaurant.name}`}
-              aspect="aspect-[4/3]"
-            />
+            <Media image={restaurant.image} aspect="aspect-[4/3]" />
           </Reveal>
 
           <Reveal delay={120}>

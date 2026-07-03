@@ -5,6 +5,8 @@
 export const ROUTES = {
   home: '/',
   reservation: '/reservation',
+  suites: '/suites',
+  suiteDetail: (slug: string): string => `/suites/${slug}`,
   admin: {
     root: '/admin',
     login: '/admin/connexion',

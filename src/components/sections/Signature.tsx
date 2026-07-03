@@ -4,7 +4,7 @@ import { Ornament } from '@/components/ui/Ornament';
 import { Reveal } from '@/components/ui/Reveal';
 import { SectionLabel } from '@/components/ui/SectionLabel';
 import { HOME_SECTIONS } from '@/config/routes';
-import { motto, story } from '@/hotel/data';
+import { maisonImage, motto, story } from '@/hotel/data';
 
 /** Section éditoriale — le récit fondateur de la Maison. */
 export function Signature() {
@@ -31,11 +31,7 @@ export function Signature() {
           </Reveal>
 
           <Reveal delay={120}>
-            <Media
-              src={null}
-              alt="Façade haussmannienne de la Maison Saint-Jules au crépuscule"
-              aspect="aspect-[4/5]"
-            />
+            <Media image={maisonImage} aspect="aspect-[4/5]" />
           </Reveal>
         </div>
       </Container>

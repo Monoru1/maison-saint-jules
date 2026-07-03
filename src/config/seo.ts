@@ -1,3 +1,5 @@
+import type { Suite } from '@/hotel/types';
+
 export interface PageMeta {
   readonly title: string;
   readonly description: string;
@@ -22,6 +24,11 @@ export const pageMeta = {
     description:
       'Composez votre séjour à la Maison Saint-Jules, hôtel particulier 5 étoiles au cœur de Paris XVI.',
   },
+  suites: {
+    title: `Suites & Chambres — ${SITE_NAME}`,
+    description:
+      'Découvrez les suites et chambres de la Maison Saint-Jules : chambre signature, suite jardin et appartement privé, au cœur de Paris XVI.',
+  },
   notFound: {
     title: `Page introuvable — ${SITE_NAME}`,
     description: 'La page que vous recherchez est introuvable.',
@@ -29,3 +36,11 @@ export const pageMeta = {
 } as const satisfies Record<string, PageMeta>;
 
 export type PageMetaKey = keyof typeof pageMeta;
+
+/** Métadonnées d'une page de suite (titre + description dérivés du contenu). */
+export function suiteMeta(suite: Suite): PageMeta {
+  return {
+    title: `${suite.name} — ${SITE_NAME}`,
+    description: suite.description,
+  };
+}

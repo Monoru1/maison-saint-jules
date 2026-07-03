@@ -1,4 +1,4 @@
-import type { HotelIdentity, SocialLink } from '@/hotel/types';
+import type { HotelIdentity, HotelImage, SocialLink } from '@/hotel/types';
 
 /** Identité et coordonnées (fictives) de la Maison. */
 export const hotel: HotelIdentity = {
@@ -29,3 +29,10 @@ export const socials: readonly SocialLink[] = [
   { label: 'Pinterest', platform: 'pinterest', href: 'https://pinterest.com' },
   { label: 'LinkedIn', platform: 'linkedin', href: 'https://linkedin.com' },
 ] as const;
+
+/** Visuel de façade utilisé par la section « Notre histoire ». */
+export const maisonImage: HotelImage = {
+  src: null,
+  alt: 'Façade haussmannienne de la Maison Saint-Jules au crépuscule',
+  category: 'hotel',
+};

@@ -11,7 +11,9 @@ import { ROUTES } from '@/config/routes';
 export function RootLayout() {
   const { pathname } = useLocation();
   const overDarkHero =
-    pathname === ROUTES.home || pathname === ROUTES.reservation;
+    pathname === ROUTES.home ||
+    pathname === ROUTES.reservation ||
+    pathname.startsWith(ROUTES.suites);
 
   return (
     <>

@@ -29,12 +29,7 @@ export function Gallery() {
                 image.featured && 'md:col-span-2 md:row-span-2',
               )}
             >
-              <Media
-                src={image.image}
-                alt={image.alt}
-                aspect="h-full w-full"
-                tone={index % 2 === 0 ? 'ink' : 'foret'}
-              />
+              <Media image={image.image} aspect="h-full w-full" />
             </Reveal>
           ))}
         </div>

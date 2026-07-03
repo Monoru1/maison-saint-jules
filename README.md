@@ -5,11 +5,11 @@ d'administration sécurisé. Ce dépôt contient l'application web
 (React + Vite + TypeScript, styles TailwindCSS) et son intégration à
 Appwrite Cloud.
 
-> **État actuel — Sprint 1 livré :** page d'accueil publique complète (hero,
-> histoire, suites, restaurant, spa, expériences, galerie, réservation),
-> navigation et pied de page accessibles, SEO, pré-rendu statique (SSG) et
-> suite de tests. Le moteur de réservation et le back-office CRUD arrivent aux
-> sprints suivants.
+> **État actuel — Sprints 1 & 2 livrés :** page d'accueil immersive, système
+> média typé (prêt pour les vraies photographies), et **expérience Suites**
+> complète — liste `/suites` avec filtres et pages de détail `/suites/:slug`,
+> le tout pré-rendu (SSG). Le moteur de réservation et le back-office CRUD
+> arrivent aux sprints suivants.
 
 ---
 
@@ -67,6 +67,13 @@ confidentielle**. Le luxe y est silencieux : calme, intimité, patrimoine.
 **Motion** : révélations feutrées au défilement, jamais démonstratives, via le
 composant [`Reveal`](src/components/ui/Reveal.tsx) (voir plus bas).
 
+**Système média** : chaque visuel est décrit par un `HotelImage`
+(`src`, `alt`, `category`, `width`/`height`, `focalPoint`). Tant que `src` vaut
+`null`, un placeholder de marque s'affiche ; renseigner le chemin sous
+`public/images/<category>/` publie la photographie réelle sans autre changement
+de code. Le composant [`Media`](src/components/ui/Media.tsx) consomme ce contrat
+(cadrage `focalPoint`, dimensions anti-CLS).
+
 ---
 
 ## Architecture
@@ -77,6 +84,7 @@ src/
 │   ├── navigation/   # Navbar (menu mobile accessible) & Footer
 │   ├── sections/     # Sections de la Home (Hero, Suites, Spa…)
 │   ├── seo/          # Composant <Seo> (titre + métadonnées)
+│   ├── suites/       # Domaine Suites (SuiteCard, SuiteFilters, SuiteGallery)
 │   └── ui/           # Design System (Button, Media, Reveal, Container…)
 ├── config/           # Configuration typée (env validé, routes, SEO, constantes)
 ├── context/          # AuthProvider + contexte (scopé à l'administration)
@@ -86,7 +94,7 @@ src/
 │   └── types/        # Types du domaine hôtelier
 ├── layouts/          # RootLayout (public) & AdminLayout
 ├── lib/              # Intégrations techniques (client Appwrite)
-├── pages/            # Pages routées (Home, Reservation, NotFound, admin/)
+├── pages/            # Pages routées (Home, Reservation, suites/, admin/…)
 ├── services/         # Services métier au-dessus de lib/ (auth.service)
 ├── styles/           # Styles globaux + design tokens (@theme)
 ├── test/             # Configuration des tests (setup)
@@ -97,6 +105,8 @@ src/
 └── entry-server.tsx  # Point d'entrée SSR pour le pré-rendu
 scripts/
 └── prerender.mjs     # Fige les routes publiques en HTML statique
+public/
+└── images/           # Photographies par catégorie (hotel, suites, restaurant…)
 ```
 
 **Principes** : SOLID, composants réutilisables, typage strict, un dossier =
@@ -119,6 +129,10 @@ Chaîne de build :
 2. `build:server` — bundle SSR (`entry-server.tsx`) ;
 3. `prerender` — rend chaque route publique et l'injecte dans le template Vite
    (titre, description et canonique ajustés par page).
+
+Routes figées : `/`, `/reservation`, `/suites` et une page par suite
+(`/suites/:slug`). Les slugs proviennent des données (`suiteSlugs`) — ajouter
+une suite pré-rend automatiquement sa page.
 
 Décisions clés :
 
@@ -237,9 +251,9 @@ et créer l'utilisateur administrateur.
 
 ## Prochaines étapes
 
-- **Sprint 2** — moteur de réservation (disponibilités, tunnel) ;
-- **Direction artistique** — remplacement des placeholders média par les
-  photographies réelles (composant `Media` déjà prêt via le champ `image`) ;
+- **Moteur de réservation** (disponibilités, tunnel) ;
+- **Direction artistique** — intégration des photographies réelles sous
+  `public/images/` (le système média est déjà prêt) ;
 - Back-office CRUD (suites, contenus) ;
 - Internationalisation (chaînes prêtes à être externalisées) ;
 - Pipeline CI (lint + typecheck + tests + build).

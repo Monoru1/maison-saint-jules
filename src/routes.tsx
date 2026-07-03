@@ -5,6 +5,8 @@ import { RootLayout } from '@/layouts/RootLayout';
 import { Home } from '@/pages/Home';
 import { NotFound } from '@/pages/NotFound';
 import { Reservation } from '@/pages/Reservation';
+import { SuiteDetail } from '@/pages/suites/SuiteDetail';
+import { SuitesList } from '@/pages/suites/SuitesList';
 
 /**
  * Arbre de routes unique, partagé par le client (createBrowserRouter) et par le
@@ -21,6 +23,13 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <Home /> },
       { path: ROUTES.reservation.slice(1), element: <Reservation /> },
+      {
+        path: 'suites',
+        children: [
+          { index: true, element: <SuitesList /> },
+          { path: ':slug', element: <SuiteDetail /> },
+        ],
+      },
       { path: '*', element: <NotFound /> },
     ],
   },

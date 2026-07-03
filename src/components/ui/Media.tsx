@@ -1,48 +1,64 @@
+import type { HotelImage, MediaCategory } from '@/hotel/types';
 import { cn } from '@/utils/cn';
 
 interface MediaProps {
-  /** URL de la photographie, ou `null` pour un placeholder de marque élégant. */
-  src: string | null;
-  alt: string;
+  image: HotelImage;
+  /** Classe de ratio Tailwind (ex. `aspect-[4/5]`) ou dimension libre. */
   aspect?: string;
-  tone?: 'ink' | 'foret';
   loading?: 'lazy' | 'eager';
   className?: string;
+  imgClassName?: string;
 }
 
+const placeholderGradient: Record<MediaCategory, string> = {
+  hotel: 'from-ink-700 via-ink-800 to-ink-950',
+  suites: 'from-ink-700 via-ink-800 to-ink-950',
+  restaurant: 'from-ink-800 via-ink-900 to-ink-950',
+  spa: 'from-foret-700 via-foret-800 to-foret-900',
+  gallery: 'from-ink-700 via-ink-800 to-ink-950',
+};
+
 /**
- * Emplacement visuel « prêt-image ». Tant qu'aucune photographie n'est fournie,
- * un dégradé de marque et le monogramme tiennent lieu de placeholder soigné.
+ * Emplacement visuel « prêt-image » du système média.
+ * Rend la photographie si `image.src` est défini (avec cadrage `focalPoint`
+ * et dimensions pour limiter le CLS), sinon un placeholder de marque élégant.
  */
 export function Media({
-  src,
-  alt,
+  image,
   aspect = 'aspect-[4/3]',
-  tone = 'ink',
   loading = 'lazy',
   className,
+  imgClassName,
 }: MediaProps) {
   return (
     <div className={cn('relative overflow-hidden', aspect, className)}>
-      {src ? (
+      {image.src ? (
         <img
-          src={src}
-          alt={alt}
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
           loading={loading}
-          className="h-full w-full object-cover"
+          decoding="async"
+          style={
+            image.focalPoint
+              ? {
+                  objectPosition: `${image.focalPoint.x * 100}% ${image.focalPoint.y * 100}%`,
+                }
+              : undefined
+          }
+          className={cn('h-full w-full object-cover', imgClassName)}
         />
       ) : (
         <div
           role="img"
-          aria-label={alt}
+          aria-label={image.alt}
           className={cn(
-            'grid h-full w-full place-items-center',
-            tone === 'foret'
-              ? 'from-foret-700 via-foret-800 to-foret-900 bg-gradient-to-br'
-              : 'from-ink-700 via-ink-800 to-ink-950 bg-gradient-to-br',
+            'grid h-full w-full place-items-center bg-gradient-to-br',
+            placeholderGradient[image.category],
           )}
         >
-          <span className="font-display text-brass-500/35 text-2xl tracking-widest">
+          <span className="font-display text-brass-500/35 text-2xl tracking-[0.3em]">
             MSJ
           </span>
         </div>

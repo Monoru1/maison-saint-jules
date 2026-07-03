@@ -9,5 +9,9 @@ export const restaurant: Restaurant = {
   },
   description:
     'Une table confidentielle de vingt couverts. Le chef Augustin Lévêque compose une cuisine de saison, précise et sincère, au plus près des producteurs. Un dîner comme une conversation.',
-  image: null,
+  image: {
+    src: null,
+    alt: 'Table dressée au restaurant Le Cabinet',
+    category: 'restaurant',
+  },
 } as const;
