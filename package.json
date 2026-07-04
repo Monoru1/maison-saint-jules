@@ -21,7 +21,8 @@
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
     "prerender": "node scripts/prerender.mjs",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "appwrite:setup": "node scripts/setup-appwrite.mjs"
   },
   "lint-staged": {
     "*.{ts,tsx}": [
@@ -64,6 +65,7 @@
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.8",
+    "node-appwrite": "^26.2.0",
     "prettier": "^3.9.4",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.3.2",
