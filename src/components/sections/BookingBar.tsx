@@ -26,7 +26,14 @@ export function BookingBar() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void navigate(ROUTES.reservation);
+    void navigate(ROUTES.reservation, {
+      state: {
+        arrival,
+        departure,
+        adults: Number(adults),
+        children: Number(kids),
+      },
+    });
   };
 
   return (

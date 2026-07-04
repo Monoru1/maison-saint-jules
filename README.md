@@ -5,11 +5,11 @@ d'administration sécurisé. Ce dépôt contient l'application web
 (React + Vite + TypeScript, styles TailwindCSS) et son intégration à
 Appwrite Cloud.
 
-> **État actuel — Sprints 1 & 2 livrés :** page d'accueil immersive, système
-> média typé (prêt pour les vraies photographies), et **expérience Suites**
-> complète — liste `/suites` avec filtres et pages de détail `/suites/:slug`,
-> le tout pré-rendu (SSG). Le moteur de réservation et le back-office CRUD
-> arrivent aux sprints suivants.
+> **État actuel — Sprints 1 à 3 livrés :** page d'accueil immersive, système
+> média typé, **expérience Suites** (`/suites`, `/suites/:slug`) et **tunnel de
+> réservation** en cinq étapes (`/reservation`) — calcul de prix, validation et
+> récapitulatif live, sans paiement ni écriture Appwrite. Le tout pré-rendu
+> (SSG). Persistance réelle, disponibilités et back-office CRUD à venir.
 
 ---
 
@@ -95,6 +95,7 @@ src/
 ├── layouts/          # RootLayout (public) & AdminLayout
 ├── lib/              # Intégrations techniques (client Appwrite)
 ├── pages/            # Pages routées (Home, Reservation, suites/, admin/…)
+├── reservation/      # Domaine réservation : types, data, utils, services, tunnel
 ├── services/         # Services métier au-dessus de lib/ (auth.service)
 ├── styles/           # Styles globaux + design tokens (@theme)
 ├── test/             # Configuration des tests (setup)
@@ -134,6 +135,31 @@ Routes figées : `/`, `/reservation`, `/suites` et une page par suite
 (`/suites/:slug`). Les slugs proviennent des données (`suiteSlugs`) — ajouter
 une suite pré-rend automatiquement sa page.
 
+---
+
+## Tunnel de réservation
+
+`/reservation` propose un parcours en cinq étapes — **Séjour, Suite, Options,
+Informations, Confirmation** — encore sans paiement.
+
+Domaine isolé et testable dans `src/reservation/` :
+
+- `types.ts` — contrats (`StayDetails`, `Extra`, `CustomerInfo`,
+  `PriceBreakdown`, `BookingDraft`…) ;
+- `data/extras.ts` — catalogue des options, avec trois modes de facturation
+  (`per-stay`, `per-night`, `per-person`) ;
+- `utils/` — logique **pure** : `computeNights`, `computePricing`
+  (`subtotal = prix nuit × nuits`, `extrasTotal` selon le mode, `total`), et la
+  validation (`validateStay`, `customerSchema` via Zod) ;
+- `services/reservation.service.ts` — `createBookingRequest` produit une demande
+  référencée, **sans importer Appwrite** (SDK hors du bundle public). La
+  persistance réelle se branchera derrière cette même signature.
+
+**Aucun calcul de prix n'est dispersé dans les composants** : ils consomment
+`computePricing`. Le tunnel est **SSG-safe** — rendu déterministe à l'étape 1,
+le pré-remplissage depuis la barre de réservation passe par l'état de
+navigation (jamais l'URL), donc aucun décalage d'hydratation.
+
 Décisions clés :
 
 - **Routes d'administration en `lazy`** : leur code — et le SDK Appwrite — sont
@@ -165,7 +191,10 @@ Vitest + Testing Library (environnement jsdom) :
 - **composants** — `Seo` (métadonnées), `Reveal` (repli sans IO) ;
 - **accessibilité** — `Navbar` (ouverture/fermeture du menu, `aria-expanded`,
   `Échap`) ;
-- **intégration** — `Home` (hero + sections clés + appels à réserver).
+- **intégration** — `Home` (hero + sections clés), `SuitesList`/`SuiteDetail`,
+  et le **tunnel de réservation** de bout en bout (progression, sélections,
+  validation, demande référencée) ;
+- **domaine réservation** — nuits, prix (3 modes), validation, service.
 
 ```bash
 npm test        # exécution unique
@@ -251,12 +280,12 @@ et créer l'utilisateur administrateur.
 
 ## Prochaines étapes
 
-- **Moteur de réservation** (disponibilités, tunnel) ;
-- **Direction artistique** — intégration des photographies réelles sous
-  `public/images/` (le système média est déjà prêt) ;
-- Back-office CRUD (suites, contenus) ;
-- Internationalisation (chaînes prêtes à être externalisées) ;
-- Pipeline CI (lint + typecheck + tests + build).
+- **Persistance & disponibilités** — brancher `createBookingRequest` sur une
+  collection Appwrite (isolée, lazy) et gérer les disponibilités réelles ;
+- **Paiement / acompte** en fin de tunnel ;
+- **Direction artistique** — photographies réelles sous `public/images/` ;
+- Back-office CRUD (réservations, suites, contenus) ;
+- Internationalisation ; pipeline CI (lint + typecheck + tests + build).
 
 ---
 
