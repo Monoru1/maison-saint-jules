@@ -118,6 +118,242 @@
 /* Plan-séquence public : les scènes se raccordent par matière et lumière,
    sans verrouiller le scroll natif. */
 @layer components {
+  .world-film {
+    background: #121112;
+    color: #f3f0e8;
+  }
+  .world-film-opening {
+    position: relative;
+    display: grid;
+    min-height: 100svh;
+    overflow: hidden;
+    place-items: end start;
+  }
+  .world-film-opening-image {
+    position: absolute;
+    inset: 0;
+    background: url('/images/hotel/threshold-dawn.webp') center/cover;
+    transform: scale(1.06);
+    animation: world-breathe 18s ease-in-out infinite alternate;
+  }
+  .world-film-opening-veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(7, 7, 7, 0.86),
+        rgba(7, 7, 7, 0.44) 48%,
+        rgba(7, 7, 7, 0.08)
+      ),
+      linear-gradient(0deg, rgba(7, 7, 7, 0.7), transparent 46%);
+  }
+  .world-film-opening-veil::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 43%;
+    background: linear-gradient(90deg, #0e0e0e, rgba(14, 14, 14, 0.1));
+    content: '';
+    animation: world-veil 5.5s var(--ease-suave) both;
+  }
+  .world-film-opening-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 70rem;
+    padding: clamp(8rem, 20vh, 13rem) clamp(1.5rem, 9vw, 11rem)
+      clamp(3rem, 10vh, 7rem);
+  }
+  .world-film-opening-copy p,
+  .world-film-opening-copy span,
+  .world-film-scene-copy p {
+    color: #ddca9c;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .world-film-opening-copy h1 {
+    margin: 1.35rem 0 2.5rem;
+    font-size: clamp(4.2rem, 11vw, 11rem);
+    line-height: 0.82;
+    letter-spacing: -0.07em;
+  }
+  .world-film-opening-copy h1 em {
+    color: #ddca9c;
+    font-weight: 400;
+  }
+  .world-film-prologue {
+    display: grid;
+    min-height: 68svh;
+    padding: clamp(5rem, 14vw, 13rem) clamp(1.5rem, 18vw, 20rem);
+    place-items: center;
+    background: #f3f0e8;
+    color: #181716;
+  }
+  .world-film-prologue p {
+    max-width: 53rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.4vw, 4.7rem);
+    line-height: 1.05;
+    text-align: center;
+  }
+  .world-film-sequences {
+    display: grid;
+  }
+  .world-film-scene {
+    position: relative;
+    display: grid;
+    min-height: min(100svh, 64rem);
+    overflow: hidden;
+    align-items: end;
+    color: #f3f0e8;
+  }
+  .world-film-scene-image,
+  .world-film-scene-image::after {
+    position: absolute;
+    inset: 0;
+  }
+  .world-film-scene-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+      transform 1.8s var(--ease-suave),
+      filter 1.8s var(--ease-suave);
+    transform: scale(1.04);
+    filter: brightness(0.78) saturate(0.75);
+  }
+  .world-film-scene-image::after {
+    background: linear-gradient(0deg, rgba(7, 7, 7, 0.84), transparent 65%);
+    content: '';
+  }
+  .world-film-scene:hover img {
+    transform: scale(1.01);
+    filter: brightness(0.95) saturate(0.9);
+  }
+  .world-film-scene-copy {
+    position: relative;
+    z-index: 2;
+    max-width: 52rem;
+    padding: clamp(2rem, 8vw, 8rem);
+  }
+  .world-film-scene-copy h2 {
+    max-width: 44rem;
+    margin: 0.9rem 0 1.2rem;
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+  }
+  .world-film-scene-copy span {
+    display: block;
+    max-width: 29rem;
+    color: rgba(243, 240, 232, 0.75);
+    font-size: 1rem;
+    letter-spacing: normal;
+    line-height: 1.6;
+    text-transform: none;
+  }
+  .world-film-scene-copy i {
+    display: inline-block;
+    margin-top: 2rem;
+    color: #ddca9c;
+    font-size: 0.66rem;
+    font-style: normal;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .world-film-scene-salon .world-film-scene-image img,
+  .world-film-scene-nuit .world-film-scene-image img {
+    object-position: center 58%;
+  }
+  .world-film-scene-bains .world-film-scene-image img {
+    object-position: center;
+    filter: brightness(0.7) saturate(0.5) hue-rotate(14deg);
+  }
+  .world-film-scene-jardin .world-film-scene-image img {
+    filter: brightness(0.83) saturate(0.7);
+  }
+  .world-film-reservation {
+    display: grid;
+    min-height: 72svh;
+    padding: clamp(3rem, 10vw, 10rem);
+    place-items: center;
+    background:
+      radial-gradient(
+        circle at 50% 10%,
+        rgba(184, 154, 91, 0.17),
+        transparent 37%
+      ),
+      #171513;
+    text-align: center;
+  }
+  .world-film-reservation p {
+    max-width: 50rem;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.92;
+  }
+  .world-film-reservation a {
+    margin-top: 2rem;
+    border-bottom: 1px solid #b89a5b;
+    padding-bottom: 0.55rem;
+    color: #ddca9c;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  @keyframes world-veil {
+    from {
+      transform: scaleX(1);
+    }
+    to {
+      transform: scaleX(0.58);
+      opacity: 0.22;
+    }
+  }
+  @media (max-width: 767px) {
+    .world-film-opening {
+      min-height: 88svh;
+    }
+    .world-film-opening-copy {
+      padding-bottom: 4.5rem;
+    }
+    .world-film-opening-veil::after {
+      width: 72%;
+    }
+    .world-film-prologue {
+      min-height: 54svh;
+      padding: 4rem 1.5rem;
+    }
+    .world-film-scene {
+      min-height: 84svh;
+    }
+    .world-film-scene-copy {
+      padding: 2rem 1.5rem 3rem;
+    }
+    .world-film-scene-copy h2 {
+      font-size: 3.5rem;
+    }
+    .world-film-reservation {
+      min-height: 55svh;
+    }
+    .world-film-reservation p {
+      font-size: 3.4rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .world-film-opening-image,
+    .world-film-opening-veil::after {
+      animation: none;
+      transform: none;
+    }
+    .world-film-scene-image img {
+      transition: none;
+      transform: none;
+    }
+  }
+
   /* Musée interactif : l’index est une carte de pièces, non une page marketing. */
   .world-index {
     min-height: 100svh;
