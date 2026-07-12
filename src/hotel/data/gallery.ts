@@ -14,7 +14,7 @@ export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'salon',
     image: {
-      src: '/images/suites/suite-jardin-cover.webp',
+      src: '/images/restaurant/le-cabinet.webp',
       alt: 'Salon feutré aux boiseries d’époque',
       category: 'gallery',
     },
