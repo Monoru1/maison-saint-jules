@@ -1,4 +1,5 @@
 import { cn } from '@/utils/cn';
+import maisonSaintJulesMark from '@/assets/maison-saint-jules-mark.svg';
 
 /** Monogramme + signature de la Maison. */
 export function Logo({
@@ -19,22 +20,17 @@ export function Logo({
         className,
       )}
     >
-      <span
-        className={cn(
-          'font-display flex h-9 w-9 flex-col items-center justify-center border leading-none',
-          isLight
-            ? 'border-brass-400 text-brass-300'
-            : 'border-brass-500 text-brass-600',
-        )}
+      <img
+        src={maisonSaintJulesMark}
+        alt=""
         aria-hidden="true"
-      >
-        <span className="text-[0.68rem]">M</span>
-        <span className="-mt-0.5 text-[0.68rem] tracking-tight">SJ</span>
-      </span>
+        className={cn(
+          'h-10 w-auto',
+          isLight ? 'brightness-0 invert' : 'opacity-90',
+        )}
+      />
       {showWordmark ? (
-        <span className="font-display text-base leading-none tracking-wide">
-          Maison Saint-Jules
-        </span>
+        <span className="sr-only">Maison Saint-Jules</span>
       ) : null}
     </span>
   );

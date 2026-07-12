@@ -6,7 +6,7 @@ export const galleryImages: readonly GalleryImage[] = [
     id: 'facade',
     featured: true,
     image: {
-      src: null,
+      src: '/images/hotel/threshold-dawn.webp',
       alt: 'Façade haussmannienne de la Maison au crépuscule',
       category: 'gallery',
     },
@@ -14,19 +14,23 @@ export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'salon',
     image: {
-      src: null,
+      src: '/images/suites/suite-jardin-cover.webp',
       alt: 'Salon feutré aux boiseries d’époque',
       category: 'gallery',
     },
   },
   {
     id: 'jardin',
-    image: { src: null, alt: 'Jardin privé et fontaine', category: 'gallery' },
+    image: {
+      src: '/images/hotel/jardin-apres-pluie.webp',
+      alt: 'Jardin privé après la pluie',
+      category: 'gallery',
+    },
   },
   {
     id: 'suite',
     image: {
-      src: null,
+      src: '/images/suites/suite-jardin-cover.webp',
       alt: 'Suite raffinée baignée de lumière',
       category: 'gallery',
     },
@@ -35,7 +39,7 @@ export const galleryImages: readonly GalleryImage[] = [
     id: 'table',
     featured: true,
     image: {
-      src: null,
+      src: '/images/suites/suite-jardin-cover.webp',
       alt: 'Table dressée au restaurant Le Cabinet',
       category: 'gallery',
     },
@@ -43,7 +47,7 @@ export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'spa',
     image: {
-      src: null,
+      src: '/images/hotel/jardin-apres-pluie.webp',
       alt: 'Bassin du spa sous les voûtes de pierre',
       category: 'gallery',
     },

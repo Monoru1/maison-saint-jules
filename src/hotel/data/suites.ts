@@ -47,7 +47,7 @@ export const suites: readonly Suite[] = [
         'Un petit-déjeuner composé par le chef, servi à l’heure que vous choisissez, dans le calme de votre chambre.',
     },
     cover: {
-      src: null,
+      src: '/images/suites/suite-jardin-cover.webp',
       alt: 'Chambre Signature aux boiseries d’époque baignée de lumière douce',
       category: 'suites',
     },
@@ -104,7 +104,7 @@ export const suites: readonly Suite[] = [
         'Un service de thé d’après-midi dressé face au jardin privé, autour d’une sélection de crus rares.',
     },
     cover: {
-      src: null,
+      src: '/images/suites/suite-jardin-cover.webp',
       alt: 'Suite Jardin ouverte sur les frondaisons du jardin privé',
       category: 'suites',
     },
@@ -161,7 +161,7 @@ export const suites: readonly Suite[] = [
         'Un dîner composé par le chef Augustin Lévêque, servi sur votre terrasse privée, au-dessus des toits du 16ᵉ.',
     },
     cover: {
-      src: null,
+      src: '/images/suites/suite-jardin-cover.webp',
       alt: 'Terrasse privée de l’Appartement Delacroix dominant les toits de Paris',
       category: 'suites',
     },

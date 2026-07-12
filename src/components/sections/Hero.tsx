@@ -12,9 +12,13 @@ export function Hero() {
   return (
     <section className="bg-ink-950 text-ivory relative flex min-h-dvh flex-col justify-end overflow-hidden">
       <div aria-hidden="true" className="absolute inset-0">
-        <div className="from-ink-900 via-ink-950 to-foret-900 absolute inset-0 bg-gradient-to-b" />
-        <div className="absolute inset-0 bg-[radial-gradient(65%_55%_at_72%_18%,rgba(184,154,91,0.18),transparent_60%)]" />
-        <div className="from-ink-950 absolute inset-0 bg-gradient-to-t via-transparent to-transparent" />
+        <img
+          src="/images/hotel/threshold-dawn.webp"
+          alt=""
+          className="h-full w-full object-cover object-center"
+        />
+        <div className="from-ink-950/85 via-ink-950/52 absolute inset-0 bg-gradient-to-r to-transparent" />
+        <div className="from-ink-950/90 via-ink-950/22 absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t to-transparent" />
       </div>
 
       <Container className="relative z-10 pt-36 pb-12">

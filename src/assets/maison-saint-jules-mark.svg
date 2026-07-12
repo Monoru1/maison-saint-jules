@@ -1,0 +1,17 @@
+<svg width="168" height="56" viewBox="0 0 168 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Maison Saint-Jules</title>
+  <g fill="currentColor">
+    <path d="M3 49V7h1.8l10.6 25.2L26.1 7H28v42h-2V12.4L16 36H14.7L5 12.4V49H3Z"/>
+    <path d="M35.8 49V7h2v40h17.5v2H35.8Z"/>
+    <path d="M61.5 49V7h2v42h-2Z"/>
+    <path d="M71.2 49V7h2v40h17.5v2H71.2Z"/>
+    <path d="M97.3 49V7h2v42h-2Z"/>
+    <path d="M108.4 49V7h2v42h-2Z"/>
+    <path d="M117.5 49V7h2v40h17.5v2h-19.5Z"/>
+    <path d="M145.3 49V7h2v42h-2Z"/>
+    <path d="M154.8 49V7h2v42h-2Z"/>
+  </g>
+  <path d="M1 53.5H167" stroke="currentColor" stroke-width="1"/>
+  <text x="84" y="21" text-anchor="middle" fill="currentColor" font-family="Georgia, serif" font-size="11" letter-spacing="3.6">MAISON</text>
+  <text x="84" y="39" text-anchor="middle" fill="currentColor" font-family="Georgia, serif" font-size="14" letter-spacing="1.6">SAINT-JULES</text>
+</svg>
