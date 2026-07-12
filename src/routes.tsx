@@ -2,7 +2,8 @@ import type { RouteObject } from 'react-router-dom';
 
 import { ROUTES } from '@/config/routes';
 import { RootLayout } from '@/layouts/RootLayout';
-import { Home } from '@/pages/Home';
+import { WorldHome } from '@/pages/world/WorldHome';
+import { WorldChapterPage } from '@/pages/world/WorldChapterPage';
 import { NotFound } from '@/pages/NotFound';
 import { Reservation } from '@/pages/Reservation';
 import { SuiteDetail } from '@/pages/suites/SuiteDetail';
@@ -21,7 +22,18 @@ export const routes: RouteObject[] = [
     path: ROUTES.home,
     element: <RootLayout />,
     children: [
-      { index: true, element: <Home /> },
+      { index: true, element: <WorldHome /> },
+      { path: 'maison', element: <WorldChapterPage chapter="maison" /> },
+      { path: 'bains', element: <WorldChapterPage chapter="bains" /> },
+      { path: 'cabinet', element: <WorldChapterPage chapter="cabinet" /> },
+      { path: 'jardin', element: <WorldChapterPage chapter="jardin" /> },
+      { path: 'matin', element: <WorldChapterPage chapter="matin" /> },
+      { path: 'nuit', element: <WorldChapterPage chapter="nuit" /> },
+      {
+        path: 'experiences',
+        element: <WorldChapterPage chapter="experiences" />,
+      },
+      { path: 'journal', element: <WorldChapterPage chapter="journal" /> },
       { path: ROUTES.reservation.slice(1), element: <Reservation /> },
       {
         path: 'suites',

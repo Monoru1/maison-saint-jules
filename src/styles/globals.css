@@ -118,6 +118,220 @@
 /* Plan-séquence public : les scènes se raccordent par matière et lumière,
    sans verrouiller le scroll natif. */
 @layer components {
+  /* Musée interactif : l’index est une carte de pièces, non une page marketing. */
+  .world-index {
+    min-height: 100svh;
+    background: #121112;
+    color: #f3f0e8;
+    padding: clamp(8rem, 18vh, 13rem) clamp(1.5rem, 8vw, 10rem) 5rem;
+  }
+  .world-index-intro {
+    max-width: 60rem;
+  }
+  .world-index-intro p,
+  .world-index-intro span {
+    color: #ddca9c;
+    font-size: 0.66rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+  }
+  .world-index-intro h1 {
+    margin: 1.4rem 0 2rem;
+    font-size: clamp(3.8rem, 10vw, 9.6rem);
+    line-height: 0.87;
+    letter-spacing: -0.055em;
+  }
+  .world-index-intro em {
+    color: #ddca9c;
+    font-weight: 400;
+  }
+  .world-index-map {
+    display: grid;
+    max-width: 78rem;
+    margin-top: clamp(5rem, 12vh, 10rem);
+    border-top: 1px solid rgba(243, 240, 232, 0.23);
+  }
+  .world-index-link {
+    display: grid;
+    grid-template-columns: 4rem minmax(10rem, 1fr) minmax(12rem, 1.3fr);
+    gap: 1rem;
+    align-items: baseline;
+    border-bottom: 1px solid rgba(243, 240, 232, 0.23);
+    padding: 1.3rem 0;
+    transition:
+      padding 0.7s var(--ease-suave),
+      color 0.5s var(--ease-suave),
+      background 0.5s;
+  }
+  .world-index-link span {
+    color: #b89a5b;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+  }
+  .world-index-link strong {
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 2.8vw, 2.7rem);
+    font-weight: 400;
+  }
+  .world-index-link i {
+    color: rgba(243, 240, 232, 0.55);
+    font-size: 0.88rem;
+    font-style: normal;
+    line-height: 1.5;
+  }
+  .world-index-link:hover {
+    padding-left: 1.1rem;
+    color: #ddca9c;
+  }
+  .world-chapter {
+    min-height: 100svh;
+    background: #f3f0e8;
+    color: #181716;
+  }
+  .world-chapter-hero {
+    position: relative;
+    height: min(92svh, 68rem);
+    overflow: hidden;
+    background: #121112;
+  }
+  .world-chapter-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.035);
+    animation: world-breathe 16s ease-in-out infinite alternate;
+  }
+  .world-chapter-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(7, 7, 7, 0.82),
+      rgba(7, 7, 7, 0.22) 64%,
+      rgba(7, 7, 7, 0.08)
+    );
+  }
+  .world-chapter-title {
+    position: absolute;
+    right: clamp(1.5rem, 8vw, 10rem);
+    bottom: clamp(3rem, 10vw, 8rem);
+    left: clamp(1.5rem, 8vw, 10rem);
+    color: #f3f0e8;
+  }
+  .world-chapter-title p {
+    color: #ddca9c;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .world-chapter-title h1 {
+    max-width: 54rem;
+    margin: 0.9rem 0 1.2rem;
+    font-size: clamp(4rem, 10vw, 10rem);
+    line-height: 0.85;
+    letter-spacing: -0.06em;
+  }
+  .world-chapter-title span {
+    display: block;
+    max-width: 25rem;
+    color: rgba(243, 240, 232, 0.8);
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+    font-style: italic;
+  }
+  .world-chapter-text {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(16rem, 0.85fr);
+    gap: clamp(3rem, 10vw, 12rem);
+    max-width: 80rem;
+    margin: auto;
+    padding: clamp(5rem, 12vw, 12rem) clamp(1.5rem, 8vw, 10rem);
+  }
+  .world-chapter-lead {
+    max-width: 43rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 3.2vw, 3.25rem);
+    line-height: 1.17;
+  }
+  .world-chapter-notes {
+    border-top: 1px solid rgba(24, 23, 22, 0.25);
+  }
+  .world-chapter-notes li {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(24, 23, 22, 0.18);
+    padding: 1rem 0;
+    font-size: 0.88rem;
+  }
+  .world-chapter-notes span {
+    color: #9c8049;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+  }
+  .world-chapter-next {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    min-height: 26rem;
+    padding: clamp(2rem, 8vw, 8rem);
+    background: #171513;
+    color: #f3f0e8;
+  }
+  .world-chapter-next p {
+    color: #ddca9c;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 4rem);
+    font-style: italic;
+  }
+  .world-jardin .world-chapter-hero img {
+    filter: saturate(0.75) contrast(0.95);
+  }
+  .world-bains .world-chapter-hero img {
+    filter: hue-rotate(22deg) saturate(0.65);
+  }
+  .world-matin .world-chapter-hero img {
+    filter: brightness(1.1) saturate(0.7);
+  }
+  .world-nuit .world-chapter-hero img {
+    filter: brightness(0.62) saturate(0.7);
+  }
+  @keyframes world-breathe {
+    to {
+      transform: scale(1.1) translate3d(-0.8%, -0.4%, 0);
+    }
+  }
+  @media (max-width: 767px) {
+    .world-index-link {
+      grid-template-columns: 2.5rem 1fr;
+    }
+    .world-index-link i {
+      grid-column: 2;
+      color: rgba(243, 240, 232, 0.48);
+    }
+    .world-chapter-text {
+      grid-template-columns: 1fr;
+    }
+    .world-chapter-next {
+      min-height: 18rem;
+      align-items: start;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .world-chapter-hero {
+      height: 78svh;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .world-chapter-hero img {
+      animation: none;
+      transform: none;
+    }
+    .world-index-link {
+      transition: none;
+    }
+  }
+
   .cinematic-journey {
     --journey-progress: 0;
     position: relative;

@@ -1,23 +1,24 @@
-import { HOME_SECTIONS, ROUTES } from '@/config/routes';
+import { ROUTES } from '@/config/routes';
 import type { NavItem } from '@/hotel/types';
 
 /** Navigation principale du site public. */
 export const primaryNav: readonly NavItem[] = [
-  { label: 'La Maison', href: `#${HOME_SECTIONS.signature}` },
-  { label: 'Suites', href: `#${HOME_SECTIONS.suites}` },
-  { label: 'Restaurant', href: `#${HOME_SECTIONS.restaurant}` },
-  { label: 'Spa', href: `#${HOME_SECTIONS.spa}` },
-  { label: 'Expériences', href: `#${HOME_SECTIONS.experiences}` },
-  { label: 'Galerie', href: `#${HOME_SECTIONS.gallery}` },
+  { label: 'La Maison', href: ROUTES.maison },
+  { label: 'Suites', href: ROUTES.suites },
+  { label: 'Le Cabinet', href: ROUTES.cabinet },
+  { label: 'Les Bains', href: ROUTES.bains },
+  { label: 'Le Jardin', href: ROUTES.jardin },
+  { label: 'La Nuit', href: ROUTES.nuit },
 ] as const;
 
 /** Liens du pied de page. */
 export const footerNav: readonly NavItem[] = [
-  { label: 'La Maison', href: `#${HOME_SECTIONS.signature}` },
-  { label: 'Suites & Chambres', href: `#${HOME_SECTIONS.suites}` },
-  { label: 'Restaurant', href: `#${HOME_SECTIONS.restaurant}` },
-  { label: 'Spa & Bien-être', href: `#${HOME_SECTIONS.spa}` },
-  { label: 'Expériences', href: `#${HOME_SECTIONS.experiences}` },
+  { label: 'La Maison', href: ROUTES.maison },
+  { label: 'Suites & Chambres', href: ROUTES.suites },
+  { label: 'Le Cabinet', href: ROUTES.cabinet },
+  { label: 'Les Bains', href: ROUTES.bains },
+  { label: 'Le Jardin', href: ROUTES.jardin },
+  { label: 'Le Journal', href: ROUTES.journal },
   { label: 'Réserver', href: ROUTES.reservation },
 ] as const;
 
