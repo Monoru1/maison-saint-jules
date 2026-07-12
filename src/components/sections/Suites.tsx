@@ -10,11 +10,12 @@ export function Suites() {
   return (
     <section
       id={HOME_SECTIONS.suites}
-      className="bg-ivory-muted py-24 md:py-32"
+      data-scene="rooms"
+      className="cinematic-scene cinematic-rooms bg-ivory-muted py-28 md:py-40"
     >
       <Container>
         <div className="mx-auto max-w-2xl text-center">
-          <SectionLabel>Séjourner</SectionLabel>
+          <SectionLabel>Acte III · Les pièces</SectionLabel>
           <h2 className="text-ink-900 mt-5 text-4xl md:text-5xl">
             Suites &amp; Chambres
           </h2>

@@ -10,11 +10,12 @@ export function Spa() {
   return (
     <section
       id={HOME_SECTIONS.spa}
-      className="bg-foret-800 text-ivory py-24 md:py-32"
+      data-scene="baths"
+      className="cinematic-scene cinematic-baths bg-foret-800 text-ivory py-28 md:py-40"
     >
       <Container>
         <Reveal className="mx-auto max-w-2xl text-center">
-          <SectionLabel tone="light">Spa &amp; bien-être</SectionLabel>
+          <SectionLabel tone="light">Acte IV · Les bains</SectionLabel>
           <h2 className="mt-5 text-4xl md:text-5xl">Un écrin de sérénité</h2>
           <Ornament tone="light" className="mt-6" />
           <p className="text-ivory/70 mt-7 leading-relaxed">

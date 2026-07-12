@@ -16,7 +16,7 @@ describe('Home', () => {
   it('affiche le titre principal du hero', () => {
     renderHome();
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
-      /élégance/i,
+      /Paris devient une rumeur/i,
     );
   });
 
@@ -29,7 +29,7 @@ describe('Home', () => {
       screen.getByRole('heading', { name: /sérénité/i }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { name: /esprit des lieux/i }),
+      screen.getByRole('heading', { name: /Maison respire/i }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { name: /comme un privilège/i }),
