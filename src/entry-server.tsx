@@ -9,6 +9,7 @@ import {
 import { ROUTES } from '@/config/routes';
 import { pageMeta, suiteMeta } from '@/config/seo';
 import { suites } from '@/hotel/data';
+import { worldChapters } from '@/pages/world/world-data';
 import { routes } from '@/routes';
 
 export interface PrerenderRoute {
@@ -25,6 +26,11 @@ export const prerenderRoutes: readonly PrerenderRoute[] = [
   ...suites.map((suite) => ({
     path: ROUTES.suiteDetail(suite.slug),
     ...suiteMeta(suite),
+  })),
+  ...Object.entries(worldChapters).map(([path, chapter]) => ({
+    path: `/${path}`,
+    title: `${chapter.title} — Maison Saint-Jules`,
+    description: chapter.line,
   })),
 ];
 
