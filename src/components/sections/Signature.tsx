@@ -9,15 +9,19 @@ import { maisonImage, motto, story } from '@/hotel/data';
 /** Section éditoriale — le récit fondateur de la Maison. */
 export function Signature() {
   return (
-    <section id={HOME_SECTIONS.signature} className="bg-ivory py-24 md:py-32">
+    <section
+      data-scene="vestibule"
+      id={HOME_SECTIONS.signature}
+      className="cinematic-scene cinematic-vestibule bg-ivory py-28 md:py-40"
+    >
       <Container>
         <div className="grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
           <Reveal>
-            <SectionLabel>Notre histoire</SectionLabel>
+            <SectionLabel>Acte II · Le vestibule</SectionLabel>
             <h2 className="text-ink-900 mt-5 text-4xl md:text-5xl">
-              Un hôtel particulier.
+              Le dehors reste
               <br />
-              Une histoire de famille.
+              derrière la porte.
             </h2>
             <Ornament className="mt-7" />
             <div className="text-ink-600 mt-8 space-y-5 leading-relaxed">
@@ -31,7 +35,9 @@ export function Signature() {
           </Reveal>
 
           <Reveal delay={120}>
-            <Media image={maisonImage} aspect="aspect-[4/5]" />
+            <div className="cinematic-doorway">
+              <Media image={maisonImage} aspect="aspect-[4/5]" />
+            </div>
           </Reveal>
         </div>
       </Container>

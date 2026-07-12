@@ -10,12 +10,16 @@ import { cn } from '@/utils/cn';
 /** Aperçu de la galerie — composition « bento » élégante. */
 export function Gallery() {
   return (
-    <section id={HOME_SECTIONS.gallery} className="bg-ivory py-24 md:py-32">
+    <section
+      data-scene="garden"
+      id={HOME_SECTIONS.gallery}
+      className="cinematic-scene cinematic-garden bg-ivory py-28 md:py-40"
+    >
       <Container>
         <div className="flex flex-col items-center text-center">
-          <SectionLabel>Galerie</SectionLabel>
+          <SectionLabel>Acte V · Le jardin intérieur</SectionLabel>
           <h2 className="text-ink-900 mt-5 text-4xl md:text-5xl">
-            L’esprit des lieux
+            Là où la Maison respire
           </h2>
         </div>
 

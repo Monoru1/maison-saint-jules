@@ -10,7 +10,10 @@ import { hotel } from '@/hotel/data';
 /** Invitation à la réservation — bloc immersif (teaser, sans moteur). */
 export function ReservationTeaser() {
   return (
-    <section className="bg-ink-950 text-ivory relative overflow-hidden">
+    <section
+      data-scene="night"
+      className="cinematic-scene cinematic-night bg-ink-950 text-ivory relative overflow-hidden"
+    >
       <div aria-hidden="true" className="absolute inset-0">
         <div className="from-foret-900 via-ink-950 to-ink-900 absolute inset-0 bg-gradient-to-br" />
         <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(184,154,91,0.16),transparent_65%)]" />
@@ -18,12 +21,8 @@ export function ReservationTeaser() {
 
       <Container className="relative z-10 py-28 text-center md:py-36">
         <Reveal className="mx-auto max-w-2xl">
-          <SectionLabel tone="light">Votre séjour</SectionLabel>
-          <h2 className="mt-6 text-4xl md:text-6xl">
-            Ouvrez la porte
-            <br />
-            de la Maison
-          </h2>
+          <SectionLabel tone="light">Acte VI · La nuit</SectionLabel>
+          <h2 className="mt-6 text-4xl md:text-6xl">La Maison est prête.</h2>
           <Ornament tone="light" className="mt-7" />
           <p className="text-ivory/70 mx-auto mt-8 max-w-xl leading-relaxed">
             Nos équipes composent chaque séjour sur mesure. Réservez votre

@@ -12,7 +12,8 @@ export function Restaurant() {
   return (
     <section
       id={HOME_SECTIONS.restaurant}
-      className="bg-ink-950 text-ivory py-24 md:py-32"
+      data-scene="table"
+      className="cinematic-scene cinematic-table bg-ink-950 text-ivory py-28 md:py-40"
     >
       <Container>
         <div className="grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
@@ -21,7 +22,7 @@ export function Restaurant() {
           </Reveal>
 
           <Reveal delay={120}>
-            <SectionLabel tone="light">Le restaurant</SectionLabel>
+            <SectionLabel tone="light">Acte IV · La table</SectionLabel>
             <h2 className="mt-5 text-4xl md:text-5xl">{restaurant.name}</h2>
             <p className="text-brass-300 mt-3 font-sans text-sm tracking-[0.2em] uppercase">
               {restaurant.cuisine}
