@@ -31,8 +31,8 @@ export const worldChapters = {
     eyebrow: 'IV · L’eau',
     line: 'Le corps ralentit avant la pensée.',
     copy: 'Les bains ne sont pas un spa ajouté à un hôtel. Ce sont des pièces minérales où l’eau modifie la lumière, où la vapeur brouille les contours et où chaque rituel commence par une minute sans demande.',
-    image: '/images/hotel/jardin-apres-pluie.webp',
-    alt: 'Reflet d’eau dans le jardin intérieur de la Maison',
+    image: '/images/spa/baths-still.webp',
+    alt: 'Bains de pierre et eau sombre à la Maison Saint-Jules',
     next: { label: 'Trouver le jardin', href: ROUTES.jardin },
     details: [
       'Pierre brossée et eau sombre',
@@ -83,8 +83,8 @@ export const worldChapters = {
     eyebrow: 'VII · Après 22 h',
     line: 'La lumière ne disparaît pas. Elle choisit où rester.',
     copy: 'Lorsque le jardin devient sombre, les lampes ne remplacent pas le jour : elles redessinent les distances. Le laiton capte un reflet, une fenêtre devient un cadre et la Maison semble n’appartenir qu’à ceux qui y restent.',
-    image: '/images/hotel/threshold-dawn.webp',
-    alt: 'Entrée de la Maison à la lumière du soir',
+    image: '/images/hotel/salon-dusk.webp',
+    alt: 'Salon de la Maison à la lumière du soir',
     next: { label: 'Composer un séjour', href: ROUTES.experiences },
     details: [
       'Ambre à 2400 K',
