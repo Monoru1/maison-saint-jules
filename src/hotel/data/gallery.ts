@@ -1,6 +1,6 @@
 import type { GalleryImage } from '@/hotel/types';
 
-/** Composition d'aperçu de la galerie (visuels réels ajoutés ultérieurement). */
+/** Composition photographique : six plans distincts, aucun substitut de marque. */
 export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'facade',
@@ -14,7 +14,7 @@ export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'salon',
     image: {
-      src: '/images/restaurant/le-cabinet.webp',
+      src: '/images/suites/suite-jardin-salon-v4.webp',
       alt: 'Salon feutré aux boiseries d’époque',
       category: 'gallery',
     },
@@ -30,7 +30,7 @@ export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'suite',
     image: {
-      src: '/images/suites/suite-jardin-cover.webp',
+      src: '/images/suites/chambre-signature-morning-v4.webp',
       alt: 'Suite raffinée baignée de lumière',
       category: 'gallery',
     },
@@ -39,7 +39,7 @@ export const galleryImages: readonly GalleryImage[] = [
     id: 'table',
     featured: true,
     image: {
-      src: '/images/suites/suite-jardin-cover.webp',
+      src: '/images/restaurant/cabinet-table-v4.webp',
       alt: 'Table dressée au restaurant Le Cabinet',
       category: 'gallery',
     },
@@ -47,7 +47,7 @@ export const galleryImages: readonly GalleryImage[] = [
   {
     id: 'spa',
     image: {
-      src: '/images/hotel/jardin-apres-pluie.webp',
+      src: '/images/suites/chambre-signature-bath-v4.webp',
       alt: 'Bassin du spa sous les voûtes de pierre',
       category: 'gallery',
     },

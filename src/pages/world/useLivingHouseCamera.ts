@@ -30,6 +30,9 @@ export function useLivingHouseCamera(sceneCount: number) {
       scenes.forEach((scene, index) => {
         const rect = scene.getBoundingClientRect();
         const local = clamp((viewport - rect.top) / (viewport + rect.height));
+        const entrance = clamp(local / 0.42);
+        const exit = clamp((1 - local) / 0.2);
+        const presence = Math.min(entrance, exit);
         const center = rect.top + rect.height / 2;
         const distance = Math.abs(center - viewportCenter);
 
@@ -58,6 +61,32 @@ export function useLivingHouseCamera(sceneCount: number) {
         scene.style.setProperty(
           '--steam-opacity',
           (0.28 + local * 0.5).toFixed(3),
+        );
+        scene.style.setProperty('--scene-entry', entrance.toFixed(4));
+        scene.style.setProperty('--scene-presence', presence.toFixed(4));
+        scene.style.setProperty(
+          '--scene-scale',
+          (1.16 - entrance * 0.1 + (1 - exit) * 0.025).toFixed(4),
+        );
+        scene.style.setProperty(
+          '--scene-blur',
+          `${((1 - entrance) * 10).toFixed(2)}px`,
+        );
+        scene.style.setProperty(
+          '--scene-inset',
+          `${((1 - entrance) * 44).toFixed(2)}%`,
+        );
+        scene.style.setProperty(
+          '--iris-radius',
+          `${(8 + entrance * 112).toFixed(2)}%`,
+        );
+        scene.style.setProperty(
+          '--copy-opacity',
+          clamp((presence - 0.18) * 1.7).toFixed(3),
+        );
+        scene.style.setProperty(
+          '--light-travel',
+          `${(-45 + local * 155).toFixed(2)}%`,
         );
         if (distance < nearestDistance) {
           nearest = index;

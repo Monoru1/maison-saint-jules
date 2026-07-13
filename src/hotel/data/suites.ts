@@ -47,23 +47,23 @@ export const suites: readonly Suite[] = [
         'Un petit-déjeuner composé par le chef, servi à l’heure que vous choisissez, dans le calme de votre chambre.',
     },
     cover: {
-      src: '/images/suites/suite-jardin-cover.webp',
+      src: '/images/suites/chambre-signature-morning-v4.webp',
       alt: 'Chambre Signature aux boiseries d’époque baignée de lumière douce',
       category: 'suites',
     },
     gallery: [
       {
-        src: null,
+        src: '/images/suites/chambre-signature-morning-v4.webp',
         alt: 'Lit habillé de lin lavé dans la Chambre Signature',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/suites/chambre-signature-bath-v4.webp',
         alt: 'Salle de bain en marbre de la Chambre Signature',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/suites/suite-jardin-salon-v4.webp',
         alt: 'Coin salon feutré de la Chambre Signature',
         category: 'suites',
       },
@@ -110,17 +110,17 @@ export const suites: readonly Suite[] = [
     },
     gallery: [
       {
-        src: null,
+        src: '/images/suites/suite-jardin-salon-v4.webp',
         alt: 'Salon de la Suite Jardin en velours profond',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/suites/chambre-signature-morning-v4.webp',
         alt: 'Chambre de la Suite Jardin face aux arbres',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/hotel/jardin-apres-pluie.webp',
         alt: 'Fenêtres de la Suite Jardin ouvertes sur la végétation',
         category: 'suites',
       },
@@ -161,28 +161,28 @@ export const suites: readonly Suite[] = [
         'Un dîner composé par le chef Augustin Lévêque, servi sur votre terrasse privée, au-dessus des toits du 16ᵉ.',
     },
     cover: {
-      src: '/images/suites/suite-jardin-cover.webp',
+      src: '/images/suites/appartement-delacroix-terrace-v4.webp',
       alt: 'Terrasse privée de l’Appartement Delacroix dominant les toits de Paris',
       category: 'suites',
     },
     gallery: [
       {
-        src: null,
+        src: '/images/suites/suite-jardin-salon-v4.webp',
         alt: 'Salon particulier de l’Appartement Delacroix',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/suites/appartement-delacroix-terrace-v4.webp',
         alt: 'Terrasse de l’Appartement Delacroix au crépuscule',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/suites/chambre-signature-morning-v4.webp',
         alt: 'Chambre principale de l’Appartement Delacroix',
         category: 'suites',
       },
       {
-        src: null,
+        src: '/images/restaurant/cabinet-table-v4.webp',
         alt: 'Salle à manger privée de l’Appartement Delacroix',
         category: 'suites',
       },
