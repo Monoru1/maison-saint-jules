@@ -95,6 +95,12 @@ export function WorldHome() {
     '/images/hotel/threshold-dawn-portrait.webp',
     '100vw',
   );
+  const portraitOpeningAvif = {
+    src: '/images/hotel/threshold-dawn-portrait.avif',
+    srcSet:
+      '/images/hotel/threshold-dawn-portrait-640.avif 640w, /images/hotel/threshold-dawn-portrait.avif 941w',
+    sizes: '100vw',
+  };
   const landscapeOpening = responsiveImageProps(
     '/images/hotel/threshold-dawn.webp',
     '100vw',
@@ -140,10 +146,11 @@ export function WorldHome() {
         <link
           rel="preload"
           as="image"
-          href={portraitOpening.src}
-          imageSrcSet={portraitOpening.srcSet}
-          imageSizes={portraitOpening.sizes}
+          href={portraitOpeningAvif.src}
+          imageSrcSet={portraitOpeningAvif.srcSet}
+          imageSizes={portraitOpeningAvif.sizes}
           media="(orientation: portrait) and (max-width: 767px)"
+          type="image/avif"
           fetchPriority="high"
         />
         <link
@@ -157,6 +164,12 @@ export function WorldHome() {
         />
         <header className="world-film-opening" data-house-scene>
           <picture className="world-film-opening-image">
+            <source
+              type="image/avif"
+              media="(orientation: portrait) and (max-width: 767px)"
+              srcSet={portraitOpeningAvif.srcSet}
+              sizes={portraitOpeningAvif.sizes}
+            />
             <source
               media="(orientation: portrait) and (max-width: 767px)"
               srcSet={portraitOpening.srcSet}
