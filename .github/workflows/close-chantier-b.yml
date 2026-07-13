@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   dispatch-and-record:
-    if: github.event.head_commit.message == 'ci: déclencher le workflow_dispatch de clôture'
+    if: "${{ github.event.head_commit.message == 'ci: relancer le workflow_dispatch de clôture' }}"
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
