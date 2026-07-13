@@ -46,9 +46,9 @@ et JSON complets sont dans `lighthouse-reports`.
 ## Limites explicitement conservées
 
 - Le déclenchement `pull_request` est prouvé par l’exécution ci-dessus. Le
-  déclenchement manuel `workflow_dispatch` ne peut pas être exécuté avant que le
-  workflow existe sur la branche par défaut GitHub. Il reste donc **non prouvé à
-  ce stade**, sans incidence sur les mesures produites par le même workflow.
+  déclenchement manuel `workflow_dispatch` est prouvé par
+  [Lighthouse CI — run 14](https://github.com/Monoru1/maison-saint-jules/actions/runs/29250349368), exécuté avec succès
+  sur la branche `main`.
 - L’accueil atteint 85 en performance et un LCP supérieur à 2,5 s : ces seuils
   sont configurés en avertissement, comme demandé. Ils ne constituent pas une
   régression par rapport à la baseline, mais restent une dette de performance.
