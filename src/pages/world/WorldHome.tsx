@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { CSSProperties } from 'react';
 import { Seo } from '@/components/seo';
+import { BookingBar } from '@/reservation/components/BookingBar';
+import { responsiveImageProps } from '@/utils/responsive-image';
 import { useLivingHouseCamera } from './useLivingHouseCamera';
 
 const scenes = [
@@ -89,6 +91,20 @@ const scenes = [
 export function WorldHome() {
   const { activeScene, rootRef } = useLivingHouseCamera(scenes.length);
   const currentScene = scenes[activeScene] ?? scenes[0];
+  const portraitOpening = responsiveImageProps(
+    '/images/hotel/threshold-dawn-portrait.webp',
+    '100vw',
+  );
+  const portraitOpeningAvif = {
+    src: '/images/hotel/threshold-dawn-portrait.avif',
+    srcSet:
+      '/images/hotel/threshold-dawn-portrait-640.avif 640w, /images/hotel/threshold-dawn-portrait.avif 941w',
+    sizes: '100vw',
+  };
+  const landscapeOpening = responsiveImageProps(
+    '/images/hotel/threshold-dawn.webp',
+    '100vw',
+  );
 
   return (
     <>
@@ -127,8 +143,47 @@ export function WorldHome() {
             ))}
           </ol>
         </aside>
+        <link
+          rel="preload"
+          as="image"
+          href={portraitOpeningAvif.src}
+          imageSrcSet={portraitOpeningAvif.srcSet}
+          imageSizes={portraitOpeningAvif.sizes}
+          media="(orientation: portrait) and (max-width: 767px)"
+          type="image/avif"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={landscapeOpening.src}
+          imageSrcSet={landscapeOpening.srcSet}
+          imageSizes={landscapeOpening.sizes}
+          media="(min-width: 768px), (orientation: landscape)"
+          fetchPriority="high"
+        />
         <header className="world-film-opening" data-house-scene>
-          <div className="world-film-opening-image" />
+          <picture className="world-film-opening-image">
+            <source
+              type="image/avif"
+              media="(orientation: portrait) and (max-width: 767px)"
+              srcSet={portraitOpeningAvif.srcSet}
+              sizes={portraitOpeningAvif.sizes}
+            />
+            <source
+              media="(orientation: portrait) and (max-width: 767px)"
+              srcSet={portraitOpening.srcSet}
+              sizes={portraitOpening.sizes}
+            />
+            <img
+              {...landscapeOpening}
+              alt=""
+              width="1600"
+              height="900"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </picture>
           <div className="world-film-opening-veil" />
           <div className="world-film-opening-copy">
             <p>Maison Saint-Jules · Paris</p>
@@ -160,9 +215,9 @@ export function WorldHome() {
               <div className="world-film-scene-stage">
                 <div className="world-film-scene-image">
                   <img
-                    src={scene.image}
+                    {...responsiveImageProps(scene.image, '100vw')}
                     alt=""
-                    loading={index > 1 ? 'lazy' : 'eager'}
+                    loading="lazy"
                     decoding="async"
                   />
                 </div>
@@ -182,6 +237,14 @@ export function WorldHome() {
             </section>
           ))}
         </div>
+        <section className="world-film-booking" aria-labelledby="booking-title">
+          <div>
+            <p>IX · Être attendu</p>
+            <h2 id="booking-title">Choisissez seulement le moment.</h2>
+            <span>La Maison préparera le reste.</span>
+          </div>
+          <BookingBar />
+        </section>
         <section className="world-film-reservation">
           <p>Après la nuit, tout devient plus simple.</p>
           <Link to="/reservation">La Maison est prête à vous recevoir</Link>

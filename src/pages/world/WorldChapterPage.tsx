@@ -1,5 +1,6 @@
 import { ArrowLink } from '@/components/ui/ArrowLink';
 import { Seo } from '@/components/seo';
+import { responsiveImageProps } from '@/utils/responsive-image';
 import { worldChapters } from './world-data';
 
 export function WorldChapterPage({
@@ -16,7 +17,15 @@ export function WorldChapterPage({
       />
       <article className={`world-chapter world-${chapter}`}>
         <header className="world-chapter-hero">
-          <img src={item.image} alt={item.alt} />
+          <img
+            {...responsiveImageProps(item.image, '100vw')}
+            alt={item.alt}
+            width="1600"
+            height="900"
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+          />
           <div className="world-chapter-shade" />
           <div className="world-chapter-title">
             <p>{item.eyebrow}</p>

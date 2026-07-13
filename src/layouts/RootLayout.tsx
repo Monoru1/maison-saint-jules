@@ -2,6 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { Footer } from '@/components/navigation/Footer';
 import { Navbar } from '@/components/navigation/Navbar';
+import { RouteScrollReset } from '@/components/navigation/RouteScrollReset';
 import { ROUTES } from '@/config/routes';
 
 /**
@@ -14,6 +15,7 @@ export function RootLayout() {
 
   return (
     <>
+      <RouteScrollReset />
       <a
         href="#contenu"
         className="focus:bg-ink-900 focus:text-ivory sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:text-sm"

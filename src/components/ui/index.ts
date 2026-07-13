@@ -8,5 +8,4 @@ export { Media } from './Media';
 export { Ornament } from './Ornament';
 export { Reveal } from './Reveal';
 export { SectionLabel } from './SectionLabel';
-export { SoundControl } from './SoundControl';
 export { SmartLink } from './SmartLink';

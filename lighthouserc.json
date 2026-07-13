@@ -1,0 +1,38 @@
+{
+  "ci": {
+    "collect": {
+      "staticDistDir": "./dist",
+      "url": [
+        "http://localhost/",
+        "http://localhost/suites/chambre-signature/",
+        "http://localhost/reservation/"
+      ],
+      "numberOfRuns": 3,
+      "settings": {
+        "formFactor": "mobile",
+        "screenEmulation": {
+          "mobile": true,
+          "width": 375,
+          "height": 812,
+          "deviceScaleFactor": 2,
+          "disabled": false
+        },
+        "throttling": {
+          "cpuSlowdownMultiplier": 4
+        }
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["warn", { "minScore": 0.85 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "cumulative-layout-shift": ["error", { "maxNumericValue": 0.1 }],
+        "largest-contentful-paint": ["warn", { "maxNumericValue": 2500 }]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "./.lighthouseci/uploaded"
+    }
+  }
+}

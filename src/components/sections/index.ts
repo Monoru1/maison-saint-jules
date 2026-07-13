@@ -1,9 +1,0 @@
-export { BookingBar } from './BookingBar';
-export { Experiences } from './Experiences';
-export { Gallery } from './Gallery';
-export { Hero } from './Hero';
-export { ReservationTeaser } from './ReservationTeaser';
-export { Restaurant } from './Restaurant';
-export { Signature } from './Signature';
-export { Spa } from './Spa';
-export { Suites } from './Suites';

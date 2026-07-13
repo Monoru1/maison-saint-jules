@@ -1,5 +1,6 @@
 import type { HotelImage, MediaCategory } from '@/hotel/types';
 import { cn } from '@/utils/cn';
+import { responsiveImageProps } from '@/utils/responsive-image';
 
 interface MediaProps {
   image: HotelImage;
@@ -8,6 +9,7 @@ interface MediaProps {
   loading?: 'lazy' | 'eager';
   className?: string;
   imgClassName?: string;
+  sizes?: string;
 }
 
 const placeholderGradient: Record<MediaCategory, string> = {
@@ -29,12 +31,13 @@ export function Media({
   loading = 'lazy',
   className,
   imgClassName,
+  sizes = '(max-width: 767px) 100vw, 50vw',
 }: MediaProps) {
   return (
     <div className={cn('relative overflow-hidden', aspect, className)}>
       {image.src ? (
         <img
-          src={image.src}
+          {...responsiveImageProps(image.src, sizes)}
           alt={image.alt}
           width={image.width}
           height={image.height}

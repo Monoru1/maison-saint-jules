@@ -1,0 +1,196 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+    paths-ignore:
+      - docs/**
+  workflow_dispatch:
+    inputs:
+      baseline_ref:
+        description: Référence Git utilisée comme état avant
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    name: Lighthouse — comparatif reproductible
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Récupérer les outils de mesure
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: tooling
+
+      - name: Récupérer la baseline
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || inputs.baseline_ref || 'main' }}
+          path: baseline
+
+      - name: Récupérer la version actuelle
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: current
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: |
+            baseline/package-lock.json
+            current/package-lock.json
+
+      - name: Installer les dépendances
+        run: |
+          npm ci --legacy-peer-deps --prefix baseline
+          npm ci --legacy-peer-deps --prefix current
+
+      - name: Rendre LHCI disponible sur la baseline
+        run: npm install --prefix baseline --no-save --legacy-peer-deps @lhci/cli@0.15.1
+
+      - name: Construire les deux versions
+        run: |
+          npm run build --prefix baseline
+          npm run build --prefix current
+
+      - name: Inventorier routes, CSS et images
+        run: |
+          node tooling/scripts/check-build-evidence.mjs baseline/dist baseline/build-evidence.json
+          node tooling/scripts/check-build-evidence.mjs current/dist current/build-evidence.json
+
+      - name: Prouver les références au moteur supprimé
+        run: |
+          git -C baseline grep -n -E 'cinematic-|useCinematicJourney' -- src > baseline/legacy-engine-references.txt || true
+          git -C current grep -n -E 'cinematic-|useCinematicJourney' -- src > current/legacy-engine-references.txt || true
+
+      - name: Exécuter les tests de la branche actuelle
+        working-directory: current
+        run: npm test -- --reporter=verbose | tee test-output.txt
+
+      - name: Auditer la baseline — trois passages par route
+        id: audit_baseline
+        continue-on-error: true
+        working-directory: baseline
+        run: npx lhci autorun --config=../tooling/lighthouserc.json
+
+      - name: Résumer la baseline
+        if: always()
+        working-directory: baseline
+        run: node ../tooling/scripts/summarize-lighthouse.mjs .lighthouseci lighthouse-summary.json
+
+      - name: Auditer la version actuelle — trois passages par route
+        id: audit_current
+        continue-on-error: true
+        working-directory: current
+        run: npx lhci autorun --config=../tooling/lighthouserc.json
+
+      - name: Résumer la version actuelle
+        if: always()
+        working-directory: current
+        run: node ../tooling/scripts/summarize-lighthouse.mjs .lighthouseci lighthouse-summary.json
+
+      - name: Générer le tableau comparatif
+        if: always()
+        run: >-
+          node tooling/scripts/compare-lighthouse.mjs
+          baseline/lighthouse-summary.json
+          current/lighthouse-summary.json
+          lighthouse-comparison.md
+
+      - name: Publier tous les rapports et le comparatif
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          include-hidden-files: true
+          path: |
+            baseline/.lighthouseci
+            baseline/lighthouse-summary.json
+            baseline/build-evidence.json
+            baseline/legacy-engine-references.txt
+            current/.lighthouseci
+            current/lighthouse-summary.json
+            current/build-evidence.json
+            current/legacy-engine-references.txt
+            current/test-output.txt
+            lighthouse-comparison.md
+
+      - name: Faire respecter les assertions
+        if: always() && steps.audit_current.outcome == 'failure'
+        run: exit 1
+
+  responsive-proof:
+    name: Preuves responsive — ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: baseline
+            ref: ${{ github.event.pull_request.base.sha || inputs.baseline_ref || 'main' }}
+          - variant: current
+            ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    steps:
+      - name: Récupérer les outils de preuve
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: tooling
+
+      - name: Récupérer la version à capturer
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+          path: target
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: |
+            tooling/package-lock.json
+            target/package-lock.json
+
+      - name: Installer les outils et la cible
+        run: |
+          npm ci --legacy-peer-deps --prefix tooling
+          npm ci --legacy-peer-deps --prefix target
+
+      - name: Construire la cible
+        working-directory: target
+        run: npm run build
+
+      - name: Démarrer le serveur statique
+        working-directory: target
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/msj-preview.log 2>&1 &
+          for attempt in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ && exit 0
+            sleep 1
+          done
+          cat /tmp/msj-preview.log
+          exit 1
+
+      - name: Capturer 375, 768 et 834 px
+        working-directory: tooling
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+          ASSERT_ROUTE_SCROLL_RESET: ${{ matrix.variant == 'current' }}
+        run: >-
+          node scripts/capture-responsive-proof.mjs
+          http://127.0.0.1:4173
+          proofs
+
+      - name: Publier les preuves responsive
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: responsive-proof-${{ matrix.variant }}
+          path: tooling/proofs

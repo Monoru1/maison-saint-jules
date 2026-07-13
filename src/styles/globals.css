@@ -216,29 +216,58 @@
   }
   .world-film-position li {
     display: block;
-    width: 0.5rem;
-    height: 0.5rem;
+    width: 2.75rem;
+    height: 2.75rem;
   }
   .world-film-position a {
-    display: block;
+    display: grid;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    place-items: center;
+    color: transparent;
+  }
+  .world-film-position a::after {
+    width: 0.5rem;
+    height: 0.5rem;
     border: 1px solid rgba(255, 255, 255, 0.48);
     border-radius: 50%;
-    color: transparent;
+    content: '';
     transition:
       background 0.8s var(--ease-suave),
       transform 0.8s var(--ease-suave);
   }
-  .world-film[data-active-scene='0'] .world-film-position li:nth-child(1) a,
-  .world-film[data-active-scene='1'] .world-film-position li:nth-child(2) a,
-  .world-film[data-active-scene='2'] .world-film-position li:nth-child(3) a,
-  .world-film[data-active-scene='3'] .world-film-position li:nth-child(4) a,
-  .world-film[data-active-scene='4'] .world-film-position li:nth-child(5) a,
-  .world-film[data-active-scene='5'] .world-film-position li:nth-child(6) a,
-  .world-film[data-active-scene='6'] .world-film-position li:nth-child(7) a,
-  .world-film[data-active-scene='7'] .world-film-position li:nth-child(8) a {
+  .world-film[data-active-scene='0']
+    .world-film-position
+    li:nth-child(1)
+    a::after,
+  .world-film[data-active-scene='1']
+    .world-film-position
+    li:nth-child(2)
+    a::after,
+  .world-film[data-active-scene='2']
+    .world-film-position
+    li:nth-child(3)
+    a::after,
+  .world-film[data-active-scene='3']
+    .world-film-position
+    li:nth-child(4)
+    a::after,
+  .world-film[data-active-scene='4']
+    .world-film-position
+    li:nth-child(5)
+    a::after,
+  .world-film[data-active-scene='5']
+    .world-film-position
+    li:nth-child(6)
+    a::after,
+  .world-film[data-active-scene='6']
+    .world-film-position
+    li:nth-child(7)
+    a::after,
+  .world-film[data-active-scene='7']
+    .world-film-position
+    li:nth-child(8)
+    a::after {
     background: white;
     transform: scale(1.55);
   }
@@ -252,9 +281,13 @@
   .world-film-opening-image {
     position: absolute;
     inset: 0;
-    background: url('/images/hotel/threshold-dawn.webp') center/cover;
     transform: translate3d(0, var(--local-shift, 0), 0) scale(1.1);
     animation: world-breathe 18s ease-in-out infinite alternate;
+  }
+  .world-film-opening-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .world-film-opening-veil {
     position: absolute;
@@ -335,6 +368,12 @@
     min-height: 152svh;
     color: #f3f0e8;
     scroll-margin-top: 3rem;
+  }
+  @supports (content-visibility: auto) {
+    .world-film-scene {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 152svh;
+    }
   }
   .world-film-scene + .world-film-scene {
     margin-top: -18svh;
@@ -571,6 +610,37 @@
       #171513;
     text-align: center;
   }
+  .world-film-booking {
+    display: grid;
+    min-height: 74svh;
+    padding: clamp(4rem, 10vw, 10rem);
+    align-content: center;
+    gap: clamp(3rem, 7vw, 7rem);
+    background:
+      linear-gradient(115deg, rgba(18, 17, 18, 0.95), rgba(28, 24, 20, 0.9)),
+      #121112;
+  }
+  .world-film-booking > div {
+    max-width: 46rem;
+  }
+  .world-film-booking > div p {
+    color: #ddca9c;
+    font-size: 0.65rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+  }
+  .world-film-booking > div h2 {
+    margin: 1rem 0;
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.92;
+    letter-spacing: -0.055em;
+  }
+  .world-film-booking > div span {
+    color: rgba(243, 240, 232, 0.62);
+  }
+  .world-film-booking form :is(input, select, button) {
+    min-height: 2.75rem;
+  }
   .world-film-reservation p {
     max-width: 50rem;
     font-family: var(--font-display);
@@ -652,10 +722,13 @@
     }
     .world-film-position {
       top: auto;
-      right: 1rem;
-      bottom: 1.4rem;
+      right: 50%;
+      bottom: 0.5rem;
       width: auto;
-      transform: none;
+      padding: 0 0.2rem;
+      background: rgba(8, 8, 8, 0.54);
+      transform: translateX(50%);
+      backdrop-filter: blur(8px);
     }
     .world-film-position > span:first-child,
     .world-film-position-line {
@@ -663,12 +736,79 @@
     }
     .world-film-position ol {
       grid-auto-flow: column;
+      gap: 0;
     }
     .world-film-scene-cue {
       display: none;
     }
     .world-film-camera-jamb {
-      width: 1rem;
+      right: 0;
+      left: 0;
+      width: auto;
+      height: 0.75rem;
+      background: linear-gradient(
+        180deg,
+        rgba(4, 4, 4, 0.72),
+        rgba(4, 4, 4, 0.02)
+      );
+      opacity: 0.2;
+      transform: none;
+    }
+    .world-film-camera-jamb-left {
+      top: 0;
+      bottom: auto;
+    }
+    .world-film-camera-jamb-right {
+      top: auto;
+      bottom: 0;
+      transform: rotate(180deg);
+    }
+    .world-film-booking {
+      min-height: auto;
+      padding: 5rem 1.25rem 6.5rem;
+      gap: 2.5rem;
+    }
+    .world-film-booking form label {
+      min-width: 0;
+    }
+    .world-film-reservation {
+      padding-bottom: 7rem;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .world-film-opening-copy,
+    .world-film-scene-copy {
+      padding-right: 7rem;
+      padding-left: 4rem;
+    }
+    .world-film-scene {
+      min-height: 138svh;
+    }
+    .world-film-scene + .world-film-scene {
+      margin-top: -12svh;
+    }
+    .world-film-scene-copy h2 {
+      max-width: 38rem;
+      font-size: clamp(4rem, 8vw, 6rem);
+    }
+    .world-film-booking {
+      padding: 6rem 4rem;
+    }
+    .world-film-booking form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .world-film-booking form button {
+      grid-column: 1 / -1;
+    }
+    .world-chapter-text {
+      grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
+      padding: 6rem 4rem;
+      gap: 4rem;
+    }
+    .world-chapter-title {
+      padding-right: 6rem;
+      padding-left: 4rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {
@@ -903,228 +1043,6 @@
     }
     .world-index-link {
       transition: none;
-    }
-  }
-
-  .cinematic-journey {
-    --journey-progress: 0;
-    position: relative;
-    overflow: clip;
-  }
-
-  .cinematic-scene {
-    position: relative;
-    isolation: isolate;
-  }
-  .cinematic-scene::after {
-    position: absolute;
-    z-index: 2;
-    right: 0;
-    bottom: -1px;
-    left: 0;
-    height: clamp(3rem, 8vw, 8rem);
-    pointer-events: none;
-    content: '';
-  }
-  .cinematic-street::after {
-    background: linear-gradient(to bottom, transparent, #f3f0e8);
-  }
-  .cinematic-vestibule::after {
-    background: linear-gradient(to bottom, transparent, #ebe7db);
-  }
-  .cinematic-rooms::after {
-    background: linear-gradient(to bottom, transparent, #070707);
-  }
-  .cinematic-table::after {
-    background: linear-gradient(to bottom, transparent, #1f2f24);
-  }
-  .cinematic-baths::after {
-    background: linear-gradient(to bottom, transparent, #f3f0e8);
-  }
-  .cinematic-garden::after {
-    background: linear-gradient(to bottom, transparent, #070707);
-  }
-  .cinematic-night::after {
-    display: none;
-  }
-
-  .cinematic-street > div > img {
-    transform: scale(1.08);
-    transition: transform 2.4s var(--ease-suave);
-  }
-  .cinematic-street[data-active] > div > img {
-    transform: scale(1.015);
-  }
-  .cinematic-veil {
-    transform-origin: left center;
-    transition:
-      transform 2s var(--ease-suave),
-      opacity 1.5s var(--ease-suave);
-  }
-  .cinematic-street[data-active] .cinematic-veil {
-    opacity: 0.25;
-    transform: scaleX(0.72);
-  }
-  .cinematic-rain {
-    opacity: 0.22;
-    background-image: repeating-linear-gradient(
-      112deg,
-      transparent 0 22px,
-      rgba(243, 240, 232, 0.38) 23px 24px,
-      transparent 25px 47px
-    );
-    background-size: 84px 84px;
-    animation: cinematic-rain 1.25s linear infinite;
-    mix-blend-mode: screen;
-    pointer-events: none;
-  }
-  .cinematic-scene-cue {
-    position: absolute;
-    right: clamp(1.5rem, 5vw, 5rem);
-    bottom: 2.2rem;
-    z-index: 3;
-    font-size: 0.61rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-  }
-  .cinematic-scene-cue::after {
-    display: inline-block;
-    width: 1px;
-    height: 2.7rem;
-    margin: 0 0 -2rem 0.8rem;
-    background: currentColor;
-    content: '';
-    opacity: 0.6;
-  }
-  .cinematic-doorway {
-    overflow: hidden;
-    box-shadow: -1.25rem 1.25rem 0 rgba(58, 41, 32, 0.08);
-  }
-  .cinematic-doorway img {
-    transition:
-      transform 1.8s var(--ease-suave),
-      filter 1.8s var(--ease-suave);
-    transform: scale(1.06);
-    filter: saturate(0.75) sepia(0.08);
-  }
-  .cinematic-vestibule[data-active] .cinematic-doorway img {
-    transform: scale(1);
-    filter: saturate(1) sepia(0);
-  }
-  .cinematic-rooms .group,
-  .cinematic-rooms article {
-    transition: transform 900ms var(--ease-suave);
-  }
-  .cinematic-rooms[data-active] article:nth-child(2) {
-    transform: translateY(-1.4rem);
-  }
-  .cinematic-table::before,
-  .cinematic-baths::before,
-  .cinematic-garden::before,
-  .cinematic-night::before {
-    position: absolute;
-    z-index: 1;
-    inset: 0;
-    pointer-events: none;
-    content: '';
-  }
-  .cinematic-table::before {
-    background: radial-gradient(
-      circle at 18% 30%,
-      rgba(184, 154, 91, 0.19),
-      transparent 24%
-    );
-  }
-  .cinematic-baths::before {
-    background:
-      radial-gradient(
-        ellipse at 50% 0%,
-        rgba(221, 202, 156, 0.14),
-        transparent 47%
-      ),
-      repeating-radial-gradient(
-        ellipse at 70% 120%,
-        rgba(243, 240, 232, 0.045) 0 2px,
-        transparent 3px 15px
-      );
-    animation: cinematic-water 11s ease-in-out infinite alternate;
-  }
-  .cinematic-garden::before {
-    background: linear-gradient(
-      110deg,
-      rgba(59, 74, 62, 0.18),
-      transparent 40%,
-      rgba(184, 154, 91, 0.12)
-    );
-    mix-blend-mode: multiply;
-  }
-  .cinematic-night::before {
-    background: radial-gradient(
-      circle at 52% 4%,
-      rgba(184, 154, 91, 0.2),
-      transparent 34%
-    );
-  }
-  .cinematic-sound-control {
-    position: fixed;
-    z-index: 60;
-    right: 1.25rem;
-    bottom: 1.25rem;
-    display: flex;
-    align-items: center;
-    gap: 0.45rem;
-    border: 1px solid rgba(243, 240, 232, 0.28);
-    background: rgba(18, 17, 18, 0.72);
-    padding: 0.55rem 0.75rem;
-    color: #f3f0e8;
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    backdrop-filter: blur(12px);
-  }
-  .cinematic-sound-control:hover {
-    border-color: rgba(221, 202, 156, 0.8);
-    color: #ddca9c;
-  }
-  @keyframes cinematic-rain {
-    to {
-      background-position: -24px 84px;
-    }
-  }
-  @keyframes cinematic-water {
-    to {
-      transform: translate3d(-1.5%, 1%, 0) scale(1.04);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .cinematic-scene::after {
-      height: 3.5rem;
-    }
-    .cinematic-rain {
-      opacity: 0.14;
-    }
-    .cinematic-rooms[data-active] article:nth-child(2) {
-      transform: none;
-    }
-    .cinematic-sound-control {
-      right: 0.75rem;
-      bottom: 0.75rem;
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .cinematic-rain,
-    .cinematic-baths::before {
-      animation: none;
-    }
-    .cinematic-street > div > img,
-    .cinematic-doorway img,
-    .cinematic-veil {
-      transition: none;
-      transform: none;
-    }
-    .cinematic-veil {
-      opacity: 0.28;
     }
   }
 }

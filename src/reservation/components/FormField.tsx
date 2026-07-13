@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 /** Classe partagée des contrôles du tunnel (style « ligne » sobre). */
 export const fieldControlClass =
-  'border-ink-300 focus:border-ink-900 w-full border-b bg-transparent py-2.5 font-sans text-ink-900 outline-none transition-colors placeholder:text-ink-400';
+  'border-ink-300 focus:border-ink-900 min-h-11 w-full border-b bg-transparent py-2.5 font-sans text-ink-900 outline-none transition-colors placeholder:text-ink-400';
 
 interface FormFieldProps {
   label: string;

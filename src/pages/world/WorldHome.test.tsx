@@ -1,7 +1,14 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { WorldHome } from './WorldHome';
+
+const originalMatchMedia = window.matchMedia;
+
+afterEach(() => {
+  window.matchMedia = originalMatchMedia;
+  vi.restoreAllMocks();
+});
 
 describe('WorldHome', () => {
   it('met en scène les huit pièces comme un parcours continu', () => {
@@ -20,5 +27,33 @@ describe('WorldHome', () => {
     expect(
       screen.getByLabelText('Position dans la Maison'),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('form', { name: 'Vérifier les disponibilités' }),
+    ).toBeInTheDocument();
+  });
+
+  it('ne planifie aucun calcul caméra quand le mouvement est réduit', async () => {
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: query === '(prefers-reduced-motion: reduce)',
+      media: query,
+      onchange: null,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+    const requestAnimationFrame = vi.spyOn(window, 'requestAnimationFrame');
+
+    render(
+      <MemoryRouter>
+        <WorldHome />
+      </MemoryRouter>,
+    );
+
+    await act(() => window.dispatchEvent(new Event('scroll')));
+    expect(requestAnimationFrame).not.toHaveBeenCalled();
+    const film = document.querySelector<HTMLElement>('.world-film');
+    expect(film?.style.getPropertyValue('--house-progress')).toBe('');
   });
 });

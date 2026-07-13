@@ -28,7 +28,7 @@ export function FunnelStepper({
                   onStepSelect(index);
                 }}
                 className={cn(
-                  'flex items-center gap-2 font-sans text-xs tracking-[0.15em] uppercase',
+                  'flex min-h-11 min-w-11 items-center gap-2 font-sans text-xs tracking-[0.15em] uppercase',
                   done ? 'cursor-pointer' : 'cursor-default',
                 )}
               >
