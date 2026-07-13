@@ -114,11 +114,18 @@ await normalMotion.screenshot({ path: resolve(output, 'cpu-4x-375.png') });
 evidence.normalMotion = await normalMotion.evaluate(() => {
   const root = document.querySelector('.world-film');
   const scene = document.querySelector('.world-film-scene');
+  const scenes = [...document.querySelectorAll('.world-film-scene')];
   return {
     hardwareConcurrency: navigator.hardwareConcurrency,
     cameraWriteCount: window.__cameraWriteCount,
     houseProgressInline: root?.style.getPropertyValue('--house-progress') ?? '',
     sceneBlurInline: scene?.style.getPropertyValue('--scene-blur') ?? '',
+    sceneBlurInlineValues: scenes.map((item) =>
+      item.style.getPropertyValue('--scene-blur'),
+    ),
+    styledSceneIndexes: scenes.flatMap((item, index) =>
+      item.style.getPropertyValue('--scene-entry') ? [index] : [],
+    ),
   };
 });
 await normalMotion.close();
