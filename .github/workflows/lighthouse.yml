@@ -1,0 +1,179 @@
+name: Lighthouse CI
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      baseline_ref:
+        description: Référence Git utilisée comme état avant
+        required: false
+        default: main
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    name: Lighthouse — ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: baseline
+            ref: ${{ github.event.pull_request.base.sha || inputs.baseline_ref || 'main' }}
+          - variant: current
+            ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    steps:
+      - name: Récupérer les outils de mesure
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: tooling
+
+      - name: Récupérer la version à mesurer
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+          path: target
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: target/package-lock.json
+
+      - name: Installer les dépendances
+        working-directory: target
+        run: npm ci
+
+      - name: Rendre LHCI disponible sur la baseline
+        if: matrix.variant == 'baseline'
+        working-directory: target
+        run: npm install --no-save @lhci/cli@0.15.1
+
+      - name: Construire la version à mesurer
+        working-directory: target
+        run: npm run build
+
+      - name: Exécuter trois audits mobiles par route
+        id: audit
+        continue-on-error: true
+        working-directory: target
+        run: npx lhci autorun --config=../tooling/lighthouserc.json
+
+      - name: Résumer les médianes
+        if: always()
+        working-directory: target
+        run: node ../tooling/scripts/summarize-lighthouse.mjs .lighthouseci lighthouse-summary.json
+
+      - name: Publier les rapports en artefact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-${{ matrix.variant }}
+          path: |
+            target/.lighthouseci
+            target/lighthouse-summary.json
+
+      - name: Faire respecter les assertions
+        if: matrix.variant == 'current' && steps.audit.outcome == 'failure'
+        run: exit 1
+
+  comparison:
+    name: Comparatif avant / après
+    if: always()
+    needs: lighthouse
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: lighthouse-*
+          path: reports
+
+      - name: Générer le tableau comparatif
+        run: >-
+          node scripts/compare-lighthouse.mjs
+          reports/lighthouse-baseline/lighthouse-summary.json
+          reports/lighthouse-current/lighthouse-summary.json
+          lighthouse-comparison.md
+
+      - name: Publier le comparatif
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-comparison
+          path: lighthouse-comparison.md
+
+  responsive-proof:
+    name: Preuves responsive — ${{ matrix.variant }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - variant: baseline
+            ref: ${{ github.event.pull_request.base.sha || inputs.baseline_ref || 'main' }}
+          - variant: current
+            ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+    steps:
+      - name: Récupérer les outils de preuve
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          path: tooling
+
+      - name: Récupérer la version à capturer
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+          path: target
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.19.0
+          cache: npm
+          cache-dependency-path: |
+            tooling/package-lock.json
+            target/package-lock.json
+
+      - name: Installer les outils et la cible
+        run: |
+          npm ci --prefix tooling
+          npm ci --prefix target
+
+      - name: Construire la cible
+        working-directory: target
+        run: npm run build
+
+      - name: Démarrer le serveur statique
+        working-directory: target
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/msj-preview.log 2>&1 &
+          for attempt in {1..30}; do
+            curl --fail --silent http://127.0.0.1:4173/ && exit 0
+            sleep 1
+          done
+          cat /tmp/msj-preview.log
+          exit 1
+
+      - name: Capturer 375, 768 et 834 px
+        working-directory: tooling
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: >-
+          node scripts/capture-responsive-proof.mjs
+          http://127.0.0.1:4173
+          proofs
+
+      - name: Publier les preuves responsive
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: responsive-proof-${{ matrix.variant }}
+          path: tooling/proofs
