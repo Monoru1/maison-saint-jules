@@ -91,6 +91,14 @@ const scenes = [
 export function WorldHome() {
   const { activeScene, rootRef } = useLivingHouseCamera(scenes.length);
   const currentScene = scenes[activeScene] ?? scenes[0];
+  const portraitOpening = responsiveImageProps(
+    '/images/hotel/threshold-dawn-portrait.webp',
+    '100vw',
+  );
+  const landscapeOpening = responsiveImageProps(
+    '/images/hotel/threshold-dawn.webp',
+    '100vw',
+  );
 
   return (
     <>
@@ -129,20 +137,33 @@ export function WorldHome() {
             ))}
           </ol>
         </aside>
+        <link
+          rel="preload"
+          as="image"
+          href={portraitOpening.src}
+          imageSrcSet={portraitOpening.srcSet}
+          imageSizes={portraitOpening.sizes}
+          media="(orientation: portrait) and (max-width: 767px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={landscapeOpening.src}
+          imageSrcSet={landscapeOpening.srcSet}
+          imageSizes={landscapeOpening.sizes}
+          media="(min-width: 768px), (orientation: landscape)"
+          fetchPriority="high"
+        />
         <header className="world-film-opening" data-house-scene>
           <picture className="world-film-opening-image">
             <source
               media="(orientation: portrait) and (max-width: 767px)"
-              {...responsiveImageProps(
-                '/images/hotel/threshold-dawn-portrait.webp',
-                '100vw',
-              )}
+              srcSet={portraitOpening.srcSet}
+              sizes={portraitOpening.sizes}
             />
             <img
-              {...responsiveImageProps(
-                '/images/hotel/threshold-dawn.webp',
-                '100vw',
-              )}
+              {...landscapeOpening}
               alt=""
               width="1600"
               height="900"
@@ -183,7 +204,7 @@ export function WorldHome() {
                   <img
                     {...responsiveImageProps(scene.image, '100vw')}
                     alt=""
-                    loading={index > 1 ? 'lazy' : 'eager'}
+                    loading="lazy"
                     decoding="async"
                   />
                 </div>

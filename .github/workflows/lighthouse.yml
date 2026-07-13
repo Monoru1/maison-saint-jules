@@ -2,6 +2,8 @@ name: Lighthouse CI
 
 on:
   pull_request:
+    paths-ignore:
+      - docs/**
   workflow_dispatch:
     inputs:
       baseline_ref:
