@@ -46,12 +46,12 @@ jobs:
 
       - name: Installer les dépendances
         working-directory: target
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Rendre LHCI disponible sur la baseline
         if: matrix.variant == 'baseline'
         working-directory: target
-        run: npm install --no-save @lhci/cli@0.15.1
+        run: npm install --no-save --legacy-peer-deps @lhci/cli@0.15.1
 
       - name: Construire la version à mesurer
         working-directory: target
@@ -144,8 +144,8 @@ jobs:
 
       - name: Installer les outils et la cible
         run: |
-          npm ci --prefix tooling
-          npm ci --prefix target
+          npm ci --legacy-peer-deps --prefix tooling
+          npm ci --legacy-peer-deps --prefix target
 
       - name: Construire la cible
         working-directory: target
