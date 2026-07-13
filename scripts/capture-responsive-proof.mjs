@@ -88,7 +88,10 @@ if (hasBooking) {
 await portrait.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 await new Promise((resolveDelay) => setTimeout(resolveDelay, 150));
 const scrollBeforeNavigation = await portrait.evaluate(() => window.scrollY);
-await portrait.click('a[href="/maison"]');
+// Plusieurs liens vers la Maison existent (navigation mobile, desktop, footer).
+// Déclencher le premier Link dans le DOM isole ici le comportement du routeur
+// sans rendre la preuve dépendante de la visibilité d'un menu particulier.
+await portrait.$eval('a[href="/maison"]', (link) => link.click());
 await portrait.waitForFunction(() => window.location.pathname === '/maison');
 await new Promise((resolveDelay) => setTimeout(resolveDelay, 50));
 evidence.routeScrollReset = {
