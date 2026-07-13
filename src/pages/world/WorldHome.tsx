@@ -19,7 +19,7 @@ const scenes = [
     act: 'II · Le seuil',
     title: 'Une porte a été laissée ouverte.',
     copy: 'Le dehors ne disparaît pas. Il se retire derrière le bois, une vitre et le poids calme d’un loquet.',
-    image: '/images/hotel/threshold-dawn.webp',
+    image: '/images/hotel/vestibule-rain-v4.webp',
     href: '/maison',
     threshold: 'porte',
     cue: 'Le bruit de la rue recule',
@@ -29,7 +29,7 @@ const scenes = [
     act: 'III · Le salon',
     title: 'Le regard trouve où s’asseoir.',
     copy: 'Le noyer absorbe le bruit. Une porte entrouverte annonce les pièces suivantes sans jamais les vendre.',
-    image: '/images/hotel/salon-dusk.webp',
+    image: '/images/suites/suite-jardin-salon-v4.webp',
     href: '/maison',
     threshold: 'lumiere',
     cue: 'Noyer · laine · feu bas',
@@ -39,7 +39,7 @@ const scenes = [
     act: 'IV · Les suites',
     title: 'Chaque chambre garde une heure différente.',
     copy: 'Une fenêtre, un pli de lin, un livre repris plus tard. Les suites sont des chapitres à habiter.',
-    image: '/images/suites/suite-jardin-cover.webp',
+    image: '/images/suites/chambre-signature-morning-v4.webp',
     href: '/suites',
     threshold: 'voile',
     cue: 'Le lin respire avec la fenêtre',
@@ -49,7 +49,7 @@ const scenes = [
     act: 'V · Le Cabinet',
     title: 'La table attend sans se montrer.',
     copy: 'Une assiette, le verre, le métal brossé. Ici, le soin a le droit d’être silencieux.',
-    image: '/images/restaurant/le-cabinet.webp',
+    image: '/images/restaurant/cabinet-table-v4.webp',
     href: '/cabinet',
     threshold: 'reflet',
     cue: 'Vingt couverts · aucun éclat inutile',
@@ -59,7 +59,7 @@ const scenes = [
     act: 'VI · Les bains',
     title: 'L’eau redessine les murs.',
     copy: 'Avant le repos, il y a ce moment où la vapeur enlève les angles et ralentit le corps.',
-    image: '/images/spa/baths-still.webp',
+    image: '/images/suites/chambre-signature-bath-v4.webp',
     href: '/bains',
     threshold: 'vapeur',
     cue: 'Pierre tiède · eau à 34 °C',
@@ -79,7 +79,7 @@ const scenes = [
     act: 'VIII · La nuit',
     title: 'La lumière choisit où rester.',
     copy: 'Les fenêtres deviennent des cadres. La ville s’éloigne. La Maison devient presque privée.',
-    image: '/images/hotel/salon-dusk.webp',
+    image: '/images/suites/appartement-delacroix-terrace-v4.webp',
     href: '/nuit',
     threshold: 'ombre',
     cue: '22 h 17 · la Maison ralentit',
@@ -155,24 +155,30 @@ export function WorldHome() {
               data-house-scene
               data-threshold={scene.threshold}
               className={`world-film-scene world-film-scene-${scene.id}`}
+              style={{ '--scene-order': index } as CSSProperties}
             >
-              <div className="world-film-scene-image">
-                <img
-                  src={scene.image}
-                  alt=""
-                  loading={index > 1 ? 'lazy' : 'eager'}
-                  decoding="async"
+              <div className="world-film-scene-stage">
+                <div className="world-film-scene-image">
+                  <img
+                    src={scene.image}
+                    alt=""
+                    loading={index > 1 ? 'lazy' : 'eager'}
+                    decoding="async"
+                  />
+                </div>
+                <div className="world-film-scene-living" aria-hidden="true" />
+                <div
+                  className="world-film-scene-threshold"
+                  aria-hidden="true"
                 />
+                <div className="world-film-scene-copy">
+                  <p>{scene.act}</p>
+                  <h2>{scene.title}</h2>
+                  <span>{scene.copy}</span>
+                  <Link to={scene.href}>Franchir cette pièce</Link>
+                </div>
+                <p className="world-film-scene-cue">{scene.cue}</p>
               </div>
-              <div className="world-film-scene-living" aria-hidden="true" />
-              <div className="world-film-scene-threshold" aria-hidden="true" />
-              <div className="world-film-scene-copy">
-                <p>{scene.act}</p>
-                <h2>{scene.title}</h2>
-                <span>{scene.copy}</span>
-                <Link to={scene.href}>Franchir cette pièce</Link>
-              </div>
-              <p className="world-film-scene-cue">{scene.cue}</p>
             </section>
           ))}
         </div>

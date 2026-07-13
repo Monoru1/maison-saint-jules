@@ -32,10 +32,10 @@ export const socials: readonly SocialLink[] = [
 
 /** Visuel de façade utilisé par la section « Notre histoire ». */
 export const maisonImage: HotelImage = {
-  src: '/images/hotel/threshold-dawn.webp',
-  alt: 'Façade haussmannienne de la Maison Saint-Jules au crépuscule',
+  src: '/images/hotel/vestibule-rain-v4.webp',
+  alt: 'Vestibule de la Maison Saint-Jules après la pluie',
   category: 'hotel',
   width: 1672,
   height: 941,
-  focalPoint: { x: 0.38, y: 0.52 },
+  focalPoint: { x: 0.58, y: 0.52 },
 };
