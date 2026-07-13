@@ -57,6 +57,24 @@ jobs:
         working-directory: target
         run: npm run build
 
+      - name: Inventorier routes, CSS et WebP
+        working-directory: target
+        run: >-
+          node ../tooling/scripts/check-build-evidence.mjs
+          dist
+          build-evidence.json
+
+      - name: Prouver les références au moteur supprimé
+        working-directory: target
+        run: >-
+          git grep -n -E 'cinematic-|useCinematicJourney' -- src
+          > legacy-engine-references.txt || true
+
+      - name: Exécuter les tests de la branche actuelle
+        if: matrix.variant == 'current'
+        working-directory: target
+        run: npm test -- --reporter=verbose | tee test-output.txt
+
       - name: Exécuter trois audits mobiles par route
         id: audit
         continue-on-error: true
@@ -77,6 +95,9 @@ jobs:
           path: |
             target/.lighthouseci
             target/lighthouse-summary.json
+            target/build-evidence.json
+            target/legacy-engine-references.txt
+            target/test-output.txt
 
       - name: Faire respecter les assertions
         if: matrix.variant == 'current' && steps.audit.outcome == 'failure'
