@@ -108,6 +108,26 @@ const normalMotion = await openAt(375, 812, {
   cpuSlowdown: 4,
   hardwareConcurrency: 2,
 });
+await normalMotion.evaluate(() => {
+  window.__sceneEntryWriteIndexes = [];
+  window.__evidenceSceneStyles = [
+    ...document.querySelectorAll('.world-film-scene'),
+  ].map((item) => item.style);
+  const previousSetProperty = CSSStyleDeclaration.prototype.setProperty;
+  CSSStyleDeclaration.prototype.setProperty = function setProperty(
+    property,
+    value,
+    priority,
+  ) {
+    if (property === '--scene-entry') {
+      const index = window.__evidenceSceneStyles.indexOf(this);
+      if (index >= 0 && !window.__sceneEntryWriteIndexes.includes(index)) {
+        window.__sceneEntryWriteIndexes.push(index);
+      }
+    }
+    return previousSetProperty.call(this, property, value, priority);
+  };
+});
 await normalMotion.evaluate(() => window.scrollTo(0, 3200));
 await new Promise((resolveDelay) => setTimeout(resolveDelay, 350));
 await normalMotion.screenshot({ path: resolve(output, 'cpu-4x-375.png') });
@@ -126,6 +146,7 @@ evidence.normalMotion = await normalMotion.evaluate(() => {
     styledSceneIndexes: scenes.flatMap((item, index) =>
       item.style.getPropertyValue('--scene-entry') ? [index] : [],
     ),
+    sceneEntryWriteIndexesAfterScroll: window.__sceneEntryWriteIndexes,
   };
 });
 await normalMotion.close();
