@@ -982,6 +982,208 @@
     font-size: 0.62rem;
     letter-spacing: 0.15em;
   }
+  .world-chapter-observation {
+    display: grid;
+    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.55fr);
+    align-items: end;
+    gap: clamp(2rem, 7vw, 8rem);
+    padding: 0 clamp(1.5rem, 5vw, 5rem) clamp(7rem, 14vw, 14rem);
+  }
+  .world-chapter-observation-frame {
+    margin: 0;
+  }
+  .world-chapter-observation-frame img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  .world-chapter-observation figcaption,
+  .world-chapter-gallery figcaption {
+    margin-top: 0.85rem;
+    color: rgba(24, 23, 22, 0.62);
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .world-chapter-observation blockquote {
+    max-width: 25rem;
+    margin: 0 0 10%;
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 2.8vw, 3rem);
+    font-style: italic;
+    line-height: 1.17;
+  }
+  .world-chapter-observation blockquote::before {
+    display: block;
+    width: 3rem;
+    height: 1px;
+    margin-bottom: 2rem;
+    background: #9c8049;
+    content: '';
+  }
+  .world-chapter-moments {
+    padding: clamp(6rem, 12vw, 11rem) clamp(1.5rem, 8vw, 9rem);
+    background: #1b1a18;
+    color: #f3f0e8;
+  }
+  .world-chapter-moments > header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    margin-bottom: clamp(4rem, 8vw, 8rem);
+  }
+  .world-chapter-moments > header p,
+  .world-chapter-waterline p,
+  .world-chapter-signature > p {
+    color: #b89a5b;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .world-chapter-moments h2 {
+    max-width: 43rem;
+    font-size: clamp(2.6rem, 5.8vw, 6rem);
+    line-height: 0.98;
+  }
+  .world-chapter-moments ol {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(243, 240, 232, 0.22);
+  }
+  .world-chapter-moments li {
+    min-height: 17rem;
+    padding: 1.5rem clamp(1rem, 3vw, 3rem) 2rem 0;
+    border-right: 1px solid rgba(243, 240, 232, 0.16);
+  }
+  .world-chapter-moments li + li {
+    padding-left: clamp(1rem, 3vw, 3rem);
+  }
+  .world-chapter-moments li:last-child {
+    border-right: 0;
+  }
+  .world-chapter-moments li > span {
+    color: #b89a5b;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+  }
+  .world-chapter-moments h3 {
+    margin: 3rem 0 1rem;
+    font-size: clamp(1.65rem, 3vw, 2.7rem);
+  }
+  .world-chapter-moments li p {
+    max-width: 21rem;
+    color: rgba(243, 240, 232, 0.62);
+    font-size: 0.9rem;
+    line-height: 1.75;
+  }
+  .world-chapter-gallery {
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.72fr) minmax(20rem, 1.28fr);
+    align-items: end;
+    gap: clamp(2rem, 8vw, 9rem);
+    padding: clamp(7rem, 14vw, 14rem) clamp(1.5rem, 7vw, 8rem);
+    overflow: hidden;
+  }
+  .world-chapter-gallery figure {
+    margin: 0;
+  }
+  .world-chapter-gallery .is-portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+  .world-chapter-gallery .is-landscape {
+    margin-bottom: -16%;
+  }
+  .world-chapter-gallery .is-landscape img {
+    width: 112%;
+    max-width: none;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+  .world-chapter-signature {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    align-items: center;
+    gap: 2rem;
+    min-height: 30rem;
+    padding: clamp(4rem, 8vw, 8rem);
+    background: #d8d0c1;
+  }
+  .world-chapter-signature strong {
+    text-align: center;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 10vw, 10rem);
+    font-weight: 400;
+    letter-spacing: -0.07em;
+  }
+  .world-chapter-signature span {
+    max-width: 19rem;
+    color: rgba(24, 23, 22, 0.65);
+    font-size: 0.88rem;
+    line-height: 1.65;
+  }
+  .world-chapter-waterline {
+    position: relative;
+    display: grid;
+    min-height: min(82svh, 58rem);
+    place-items: center;
+    overflow: hidden;
+    background:
+      linear-gradient(180deg, rgba(6, 15, 17, 0.15), rgba(6, 15, 17, 0.85)),
+      url('/images/spa/baths-still.webp') center / cover;
+    color: #eef2ef;
+  }
+  .world-chapter-waterline::before {
+    position: absolute;
+    inset: 48% 0 0;
+    background: linear-gradient(
+      180deg,
+      rgba(142, 182, 183, 0.18),
+      rgba(4, 13, 16, 0.8)
+    );
+    border-top: 1px solid rgba(216, 240, 239, 0.5);
+    content: '';
+  }
+  .world-chapter-waterline > span {
+    position: absolute;
+    top: 48%;
+    left: 0;
+    width: 200%;
+    height: 5rem;
+    background: repeating-radial-gradient(
+      ellipse at 50% 0,
+      rgba(213, 237, 234, 0.18) 0 1px,
+      transparent 2px 17px
+    );
+    animation: waterline-drift 12s linear infinite;
+  }
+  .world-chapter-waterline > div {
+    position: relative;
+    z-index: 1;
+    max-width: 46rem;
+    padding: 2rem;
+    text-align: center;
+  }
+  .world-chapter-waterline strong {
+    display: block;
+    margin: 1.5rem 0 2rem;
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 7rem);
+    font-weight: 400;
+    line-height: 0.98;
+  }
+  .world-chapter-waterline small {
+    color: rgba(238, 242, 239, 0.62);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  @keyframes waterline-drift {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
   .world-chapter-next {
     display: flex;
     align-items: end;
@@ -1026,6 +1228,56 @@
     .world-chapter-text {
       grid-template-columns: 1fr;
     }
+    .world-chapter-observation {
+      grid-template-columns: 1fr;
+      padding-right: 0;
+    }
+    .world-chapter-observation-frame figcaption {
+      padding-right: 1.5rem;
+    }
+    .world-chapter-observation blockquote {
+      padding-right: 1.5rem;
+    }
+    .world-chapter-moments > header,
+    .world-chapter-moments ol,
+    .world-chapter-gallery,
+    .world-chapter-signature {
+      grid-template-columns: 1fr;
+    }
+    .world-chapter-moments ol {
+      border-top: 0;
+    }
+    .world-chapter-moments li,
+    .world-chapter-moments li + li {
+      min-height: auto;
+      padding: 1.5rem 0 3rem;
+      border-top: 1px solid rgba(243, 240, 232, 0.18);
+      border-right: 0;
+    }
+    .world-chapter-moments h3 {
+      margin-top: 1.5rem;
+    }
+    .world-chapter-gallery {
+      padding-right: 0;
+    }
+    .world-chapter-gallery figure {
+      padding-right: 1.5rem;
+    }
+    .world-chapter-gallery .is-landscape {
+      width: 82%;
+      margin: 0 0 0 auto;
+      padding-right: 0;
+    }
+    .world-chapter-gallery .is-landscape img {
+      width: 100%;
+    }
+    .world-chapter-signature {
+      gap: 3rem;
+      min-height: 34rem;
+    }
+    .world-chapter-signature strong {
+      text-align: left;
+    }
     .world-chapter-next {
       min-height: 18rem;
       align-items: start;
@@ -1044,6 +1296,211 @@
     .world-index-link {
       transition: none;
     }
+    .world-chapter-waterline > span {
+      animation: none;
+    }
+  }
+}
+
+/* Raccord vers Les Bains — une membrane liquide remplace la coupe de page. */
+.water-transition {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  pointer-events: none;
+  visibility: hidden;
+  overflow: hidden;
+  isolation: isolate;
+}
+.water-transition[data-phase='closing'],
+.water-transition[data-phase='opening'] {
+  visibility: visible;
+  pointer-events: auto;
+}
+.water-transition-lens,
+.water-transition-caustics,
+.water-transition-sheet {
+  position: absolute;
+  inset-block: 0;
+}
+.water-transition-lens {
+  z-index: -1;
+  inset-inline: 0;
+  background: rgba(21, 42, 45, 0.2);
+  backdrop-filter: blur(0) saturate(1);
+}
+.water-transition[data-phase='closing'] .water-transition-lens {
+  animation: water-lens-close 980ms cubic-bezier(0.72, 0, 0.2, 1) both;
+}
+.water-transition[data-phase='opening'] .water-transition-lens {
+  animation: water-lens-open 1180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.water-transition-sheet {
+  top: -4%;
+  bottom: -4%;
+  width: 54%;
+  background:
+    radial-gradient(
+      ellipse at 30% 15%,
+      rgba(225, 245, 242, 0.44),
+      transparent 20%
+    ),
+    radial-gradient(
+      ellipse at 78% 62%,
+      rgba(164, 208, 209, 0.27),
+      transparent 25%
+    ),
+    repeating-linear-gradient(
+      97deg,
+      rgba(235, 249, 247, 0.08) 0 1px,
+      transparent 2px 19px
+    ),
+    linear-gradient(110deg, #7da1a1, #3e6063 44%, #8ca8a5 72%, #29484d);
+  box-shadow: inset 0 0 8rem rgba(8, 28, 33, 0.48);
+  will-change: transform;
+}
+.water-transition-sheet-left {
+  left: -2%;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    98.5% 7%,
+    100% 15%,
+    97% 27%,
+    99.5% 38%,
+    96.8% 51%,
+    99% 63%,
+    97.4% 78%,
+    100% 91%,
+    97.5% 100%,
+    0 100%
+  );
+}
+.water-transition-sheet-right {
+  right: -2%;
+  clip-path: polygon(
+    1.5% 0,
+    100% 0,
+    100% 100%,
+    2% 100%,
+    0 90%,
+    2.8% 75%,
+    0.5% 60%,
+    3% 48%,
+    0 34%,
+    2.5% 19%
+  );
+}
+.water-transition-sheet i {
+  position: absolute;
+  inset: 0;
+  opacity: 0.42;
+  background: repeating-radial-gradient(
+    ellipse at 50% 0,
+    transparent 0 18px,
+    rgba(233, 248, 246, 0.2) 19px 20px,
+    transparent 21px 43px
+  );
+  transform: skewX(-2deg);
+}
+.water-transition[data-phase='closing'] .water-transition-sheet {
+  animation: water-curtain-fall 980ms cubic-bezier(0.72, 0, 0.2, 1) both;
+}
+.water-transition[data-phase='opening'] .water-transition-sheet-left {
+  animation: water-curtain-part-left 1180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.water-transition[data-phase='opening'] .water-transition-sheet-right {
+  animation: water-curtain-part-right 1180ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.water-transition-caustics {
+  z-index: 2;
+  inset-inline: 0;
+  opacity: 0;
+  background: repeating-linear-gradient(
+    105deg,
+    transparent 0 7%,
+    rgba(225, 247, 243, 0.16) 8%,
+    transparent 10% 17%
+  );
+  mix-blend-mode: screen;
+}
+.water-transition[data-phase='closing'] .water-transition-caustics {
+  animation: water-caustics 980ms ease-out both;
+}
+body[data-cinematic-transition='water'] {
+  overflow: hidden;
+  cursor: wait;
+}
+@keyframes water-curtain-fall {
+  0% {
+    transform: translate3d(0, -105%, 0) scaleY(0.84);
+  }
+  72% {
+    transform: translate3d(0, 1.2%, 0) scaleY(1.02);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scaleY(1);
+  }
+}
+@keyframes water-curtain-part-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  24% {
+    transform: translate3d(-1.5%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-105%, 0, 0);
+  }
+}
+@keyframes water-curtain-part-right {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  24% {
+    transform: translate3d(1.5%, 0, 0);
+  }
+  100% {
+    transform: translate3d(105%, 0, 0);
+  }
+}
+@keyframes water-lens-close {
+  to {
+    background: rgba(21, 42, 45, 0.72);
+    backdrop-filter: blur(12px) saturate(0.72);
+  }
+}
+@keyframes water-lens-open {
+  from {
+    background: rgba(21, 42, 45, 0.65);
+    backdrop-filter: blur(10px) saturate(0.75);
+  }
+  to {
+    background: transparent;
+    backdrop-filter: blur(0) saturate(1);
+  }
+}
+@keyframes water-caustics {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -15%, 0);
+  }
+  55% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.16;
+    transform: translate3d(-4%, 12%, 0);
+  }
+}
+@media (max-width: 767px) {
+  .water-transition-sheet {
+    width: 58%;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .water-transition {
+    display: none;
   }
 }
 
