@@ -73,6 +73,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lighthouse-${{ matrix.variant }}
+          include-hidden-files: true
           path: |
             target/.lighthouseci
             target/lighthouse-summary.json
@@ -103,11 +104,14 @@ jobs:
           reports/lighthouse-current/lighthouse-summary.json
           lighthouse-comparison.md
 
-      - name: Publier le comparatif
+      - name: Publier tous les rapports et le comparatif
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-comparison
-          path: lighthouse-comparison.md
+          name: lighthouse-reports
+          include-hidden-files: true
+          path: |
+            reports
+            lighthouse-comparison.md
 
   responsive-proof:
     name: Preuves responsive — ${{ matrix.variant }}
