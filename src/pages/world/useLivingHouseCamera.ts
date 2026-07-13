@@ -10,10 +10,20 @@ export function useLivingHouseCamera(sceneCount: number) {
   useEffect(() => {
     const root = rootRef.current;
     if (!root || typeof window === 'undefined') return;
+    if (
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    )
+      return;
 
     const scenes = Array.from(
       root.querySelectorAll<HTMLElement>('[data-house-scene]'),
     );
+    const compactQuery =
+      typeof window.matchMedia === 'function'
+        ? window.matchMedia('(max-width: 767px)')
+        : null;
+    const modestDevice = (navigator.hardwareConcurrency || 8) <= 4;
     let frame = 0;
     let lastActive = -1;
 
@@ -27,19 +37,27 @@ export function useLivingHouseCamera(sceneCount: number) {
       let nearest = 0;
       let nearestDistance = Number.POSITIVE_INFINITY;
 
-      scenes.forEach((scene, index) => {
+      const observations = scenes.map((scene, index) => {
         const rect = scene.getBoundingClientRect();
         const local = clamp((viewport - rect.top) / (viewport + rect.height));
+        const center = rect.top + rect.height / 2;
+        const distance = Math.abs(center - viewportCenter);
+        if (distance < nearestDistance) {
+          nearest = index;
+          nearestDistance = distance;
+        }
+        return { scene, index, local };
+      });
+
+      const compact = compactQuery?.matches === true || modestDevice;
+      observations.forEach(({ scene, index, local }) => {
+        if (Math.abs(index - nearest) > 1) return;
         const entrance = clamp(local / 0.42);
         const exit = clamp((1 - local) / 0.2);
         const presence = Math.min(entrance, exit);
-        const center = rect.top + rect.height / 2;
-        const distance = Math.abs(center - viewportCenter);
-
-        scene.style.setProperty('--local-progress', local.toFixed(4));
         scene.style.setProperty(
           '--local-shift',
-          `${(-4 + local * 8).toFixed(2)}%`,
+          `${(-3 + local * 6).toFixed(2)}%`,
         );
         scene.style.setProperty(
           '--copy-shift',
@@ -70,7 +88,7 @@ export function useLivingHouseCamera(sceneCount: number) {
         );
         scene.style.setProperty(
           '--scene-blur',
-          `${((1 - entrance) * 10).toFixed(2)}px`,
+          `${(compact ? 0 : (1 - entrance) * 8).toFixed(2)}px`,
         );
         scene.style.setProperty(
           '--scene-inset',
@@ -88,10 +106,6 @@ export function useLivingHouseCamera(sceneCount: number) {
           '--light-travel',
           `${(-45 + local * 155).toFixed(2)}%`,
         );
-        if (distance < nearestDistance) {
-          nearest = index;
-          nearestDistance = distance;
-        }
       });
 
       const mappedScene = Math.round(

@@ -19,6 +19,7 @@
     "prepare": "husky",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir dist/server",
+    "images:responsive": "node scripts/generate-responsive-images.mjs",
     "prerender": "node scripts/prerender.mjs",
     "test": "vitest run",
     "test:watch": "vitest",

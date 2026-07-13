@@ -20,5 +20,8 @@ describe('WorldHome', () => {
     expect(
       screen.getByLabelText('Position dans la Maison'),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole('form', { name: 'Vérifier les disponibilités' }),
+    ).toBeInTheDocument();
   });
 });

@@ -1,7 +1,7 @@
 import { type FormEvent, type ReactNode, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { buttonClasses } from '@/components/ui';
+import { buttonClasses } from '@/components/ui/button-variants';
 import { ROUTES } from '@/config/routes';
 import { cn } from '@/utils/cn';
 
@@ -12,10 +12,10 @@ const adultsOptions = [1, 2, 3, 4, 5, 6];
 const childrenOptions = [0, 1, 2, 3, 4];
 
 /**
- * Barre de réservation — teaser du hero.
+ * Premier geste de réservation du parcours public.
  *
- * Champs réels et accessibles, mais aucune logique de disponibilité à ce stade :
- * la validation redirige vers la future page de réservation (sprint dédié).
+ * Les choix sont transmis au funnel et validés à son entrée par
+ * `parseStayState`, sans dupliquer les règles métier du domaine réservation.
  */
 export function BookingBar() {
   const navigate = useNavigate();
@@ -45,6 +45,7 @@ export function BookingBar() {
       <Field label="Arrivée">
         <input
           type="date"
+          required
           value={arrival}
           onChange={(event) => setArrival(event.target.value)}
           className={controlClass}
@@ -53,6 +54,8 @@ export function BookingBar() {
       <Field label="Départ">
         <input
           type="date"
+          required
+          min={arrival || undefined}
           value={departure}
           onChange={(event) => setDeparture(event.target.value)}
           className={controlClass}

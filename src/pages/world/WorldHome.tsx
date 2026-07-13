@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom';
 import type { CSSProperties } from 'react';
 import { Seo } from '@/components/seo';
+import { BookingBar } from '@/reservation/components/BookingBar';
+import { responsiveImageProps } from '@/utils/responsive-image';
 import { useLivingHouseCamera } from './useLivingHouseCamera';
 
 const scenes = [
@@ -128,7 +130,26 @@ export function WorldHome() {
           </ol>
         </aside>
         <header className="world-film-opening" data-house-scene>
-          <div className="world-film-opening-image" />
+          <picture className="world-film-opening-image">
+            <source
+              media="(orientation: portrait) and (max-width: 767px)"
+              {...responsiveImageProps(
+                '/images/hotel/threshold-dawn-portrait.webp',
+                '100vw',
+              )}
+            />
+            <img
+              {...responsiveImageProps(
+                '/images/hotel/threshold-dawn.webp',
+                '100vw',
+              )}
+              alt=""
+              width="1600"
+              height="900"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </picture>
           <div className="world-film-opening-veil" />
           <div className="world-film-opening-copy">
             <p>Maison Saint-Jules · Paris</p>
@@ -160,7 +181,7 @@ export function WorldHome() {
               <div className="world-film-scene-stage">
                 <div className="world-film-scene-image">
                   <img
-                    src={scene.image}
+                    {...responsiveImageProps(scene.image, '100vw')}
                     alt=""
                     loading={index > 1 ? 'lazy' : 'eager'}
                     decoding="async"
@@ -182,6 +203,14 @@ export function WorldHome() {
             </section>
           ))}
         </div>
+        <section className="world-film-booking" aria-labelledby="booking-title">
+          <div>
+            <p>IX · Être attendu</p>
+            <h2 id="booking-title">Choisissez seulement le moment.</h2>
+            <span>La Maison préparera le reste.</span>
+          </div>
+          <BookingBar />
+        </section>
         <section className="world-film-reservation">
           <p>Après la nuit, tout devient plus simple.</p>
           <Link to="/reservation">La Maison est prête à vous recevoir</Link>
