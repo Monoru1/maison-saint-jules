@@ -84,6 +84,22 @@ if (hasBooking) {
   await new Promise((resolveDelay) => setTimeout(resolveDelay, 350));
   await portrait.screenshot({ path: resolve(output, 'booking-375.png') });
 }
+
+await portrait.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+await new Promise((resolveDelay) => setTimeout(resolveDelay, 150));
+const scrollBeforeNavigation = await portrait.evaluate(() => window.scrollY);
+await portrait.click('a[href="/maison"]');
+await portrait.waitForFunction(() => window.location.pathname === '/maison');
+await new Promise((resolveDelay) => setTimeout(resolveDelay, 50));
+evidence.routeScrollReset = {
+  from: '/',
+  to: await portrait.evaluate(() => window.location.pathname),
+  scrollBeforeNavigation,
+  scrollAfterNavigation: await portrait.evaluate(() => window.scrollY),
+};
+await portrait.screenshot({
+  path: resolve(output, 'route-scroll-reset-375.png'),
+});
 await portrait.close();
 
 for (const width of [768, 834]) {
@@ -174,3 +190,12 @@ writeFileSync(
   `${JSON.stringify(evidence, null, 2)}\n`,
 );
 await browser.close();
+
+if (
+  process.env.ASSERT_ROUTE_SCROLL_RESET === 'true' &&
+  evidence.routeScrollReset.scrollAfterNavigation !== 0
+) {
+  throw new Error(
+    `La nouvelle route conserve un scroll de ${evidence.routeScrollReset.scrollAfterNavigation}px.`,
+  );
+}

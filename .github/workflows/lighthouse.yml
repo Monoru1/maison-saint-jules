@@ -182,6 +182,7 @@ jobs:
         working-directory: tooling
         env:
           CHROME_PATH: /usr/bin/google-chrome
+          ASSERT_ROUTE_SCROLL_RESET: ${{ matrix.variant == 'current' }}
         run: >-
           node scripts/capture-responsive-proof.mjs
           http://127.0.0.1:4173
