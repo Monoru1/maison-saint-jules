@@ -41,7 +41,7 @@ describe('CinematicPageTransition', () => {
     expect(screen.queryByText('La pièce d’eau')).not.toBeInTheDocument();
 
     await act(async () => {
-      vi.advanceTimersByTime(980);
+      vi.advanceTimersByTime(1320);
       await Promise.resolve();
     });
     expect(screen.getByText('La pièce d’eau')).toBeInTheDocument();
@@ -51,7 +51,7 @@ describe('CinematicPageTransition', () => {
     );
 
     await act(async () => {
-      vi.advanceTimersByTime(1180);
+      vi.advanceTimersByTime(1680);
       await Promise.resolve();
     });
     expect(container.querySelector('.water-transition')).toHaveAttribute(

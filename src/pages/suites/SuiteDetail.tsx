@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 import { Seo } from '@/components/seo';
+import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
 import { SuiteGallery } from '@/components/suites';
 import { Container } from '@/components/ui/Container';
 import { Media } from '@/components/ui/Media';
@@ -116,7 +117,18 @@ function SuiteHero({ suite }: { suite: Suite }) {
           </div>
         </div>
 
-        <Media image={suite.cover} aspect="aspect-[4/5]" loading="eager" />
+        {suite.cover.src && suite.slug !== 'appartement-delacroix' ? (
+          <LivingMaterial
+            src={suite.cover.src}
+            alt={suite.cover.alt}
+            mode="fabric"
+            sizes="(max-width: 767px) 100vw, 50vw"
+            className="aspect-[4/5]"
+            priority
+          />
+        ) : (
+          <Media image={suite.cover} aspect="aspect-[4/5]" loading="eager" />
+        )}
       </Container>
     </section>
   );

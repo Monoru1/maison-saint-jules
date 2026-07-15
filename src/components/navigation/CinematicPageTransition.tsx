@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { WaterCurtain } from '@/components/cinematic/WaterCurtain';
+import { waterCurtainTiming } from '@/components/cinematic/water-curtain-timing';
 
 type TransitionPhase = 'idle' | 'closing' | 'opening';
-
-const WATER_CLOSE_MS = 980;
-const WATER_OPEN_MS = 1180;
 
 function isPlainInternalClick(event: MouseEvent, anchor: HTMLAnchorElement) {
   return (
@@ -80,7 +79,7 @@ export function CinematicPageTransition() {
     const timer = window.setTimeout(() => {
       void navigate(destination);
       setPhase('opening');
-    }, WATER_CLOSE_MS);
+    }, waterCurtainTiming.closing);
     return () => window.clearTimeout(timer);
   }, [destination, navigate, phase]);
 
@@ -90,7 +89,7 @@ export function CinematicPageTransition() {
       setPhase('idle');
       setDestination(null);
       delete document.body.dataset.cinematicTransition;
-    }, WATER_OPEN_MS);
+    }, waterCurtainTiming.opening);
     return () => window.clearTimeout(timer);
   }, [phase]);
 
@@ -103,14 +102,7 @@ export function CinematicPageTransition() {
 
   return (
     <div className="water-transition" data-phase={phase} aria-hidden="true">
-      <div className="water-transition-lens" />
-      <div className="water-transition-sheet water-transition-sheet-left">
-        <i />
-      </div>
-      <div className="water-transition-sheet water-transition-sheet-right">
-        <i />
-      </div>
-      <div className="water-transition-caustics" />
+      <WaterCurtain phase={phase} />
     </div>
   );
 }

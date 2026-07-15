@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { CSSProperties } from 'react';
 import { Seo } from '@/components/seo';
 import { BookingBar } from '@/reservation/components/BookingBar';
+import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
 import { responsiveImageProps } from '@/utils/responsive-image';
 import { useLivingHouseCamera } from './useLivingHouseCamera';
 
@@ -214,12 +215,16 @@ export function WorldHome() {
             >
               <div className="world-film-scene-stage">
                 <div className="world-film-scene-image">
-                  <img
-                    {...responsiveImageProps(scene.image, '100vw')}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  {scene.id === 'suites' ? (
+                    <LivingMaterial src={scene.image} alt="" mode="fabric" />
+                  ) : (
+                    <img
+                      {...responsiveImageProps(scene.image, '100vw')}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  )}
                 </div>
                 <div className="world-film-scene-living" aria-hidden="true" />
                 <div

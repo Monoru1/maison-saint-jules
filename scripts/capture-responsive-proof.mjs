@@ -53,7 +53,9 @@ async function openAt(width, height, options = {}) {
       rate: options.cpuSlowdown,
     });
   }
-  await page.goto(baseUrl, { waitUntil: 'networkidle0' });
+  await page.goto(`${baseUrl}${options.pathname ?? ''}`, {
+    waitUntil: 'networkidle0',
+  });
   return page;
 }
 
@@ -187,6 +189,76 @@ await reducedMotion.screenshot({
   path: resolve(output, 'reduced-motion-375.png'),
 });
 await reducedMotion.close();
+
+const suitesDesktop = await openAt(1440, 900, { pathname: '/suites' });
+await suitesDesktop.screenshot({
+  path: resolve(output, 'suites-material-1440.png'),
+});
+evidence.suitesMaterialDesktop = await suitesDesktop.evaluate(() => {
+  const material = document.querySelector('.living-material');
+  const canvas = material?.querySelector('canvas');
+  return {
+    pathname: window.location.pathname,
+    quality: material?.getAttribute('data-quality') ?? null,
+    mode: material?.getAttribute('data-material') ?? null,
+    canvasReady: canvas?.getAttribute('data-ready') ?? null,
+    canvasSize: canvas ? [canvas.width, canvas.height] : null,
+  };
+});
+await suitesDesktop.close();
+
+const suitesMobile = await openAt(375, 812, { pathname: '/suites' });
+await suitesMobile.screenshot({
+  path: resolve(output, 'suites-material-375.png'),
+});
+evidence.suitesMaterialMobile = await suitesMobile.evaluate(() => {
+  const material = document.querySelector('.living-material');
+  return {
+    pathname: window.location.pathname,
+    quality: material?.getAttribute('data-quality') ?? null,
+    imageVisible: Boolean(material?.querySelector('img')),
+  };
+});
+await suitesMobile.close();
+
+async function captureWaterCurtain(width, height, suffix) {
+  const page = await openAt(width, height);
+  await page.$eval('a[href="/bains"]', (link) => link.click());
+  await new Promise((resolveDelay) => setTimeout(resolveDelay, 720));
+  await page.screenshot({
+    path: resolve(output, `water-curtain-closing-${suffix}.png`),
+  });
+  const closing = await page.evaluate(() => {
+    const curtain = document.querySelector('.water-curtain');
+    const canvas = curtain?.querySelector('canvas');
+    return {
+      pathname: window.location.pathname,
+      phase: curtain?.getAttribute('data-phase') ?? null,
+      quality: curtain?.getAttribute('data-quality') ?? null,
+      fallback: curtain?.getAttribute('data-fallback') ?? null,
+      canvasSize: canvas ? [canvas.width, canvas.height] : null,
+    };
+  });
+  await page.waitForFunction(() => window.location.pathname === '/bains');
+  await new Promise((resolveDelay) => setTimeout(resolveDelay, 760));
+  await page.screenshot({
+    path: resolve(output, `water-curtain-opening-${suffix}.png`),
+  });
+  const opening = await page.evaluate(() => {
+    const curtain = document.querySelector('.water-curtain');
+    return {
+      pathname: window.location.pathname,
+      phase: curtain?.getAttribute('data-phase') ?? null,
+      quality: curtain?.getAttribute('data-quality') ?? null,
+      fallback: curtain?.getAttribute('data-fallback') ?? null,
+    };
+  });
+  await page.close();
+  return { closing, opening };
+}
+
+evidence.waterCurtainDesktop = await captureWaterCurtain(1440, 900, '1440');
+evidence.waterCurtainMobile = await captureWaterCurtain(375, 812, '375');
 
 writeFileSync(
   resolve(output, 'responsive-evidence.json'),
