@@ -35,16 +35,35 @@ export function Navbar({
     if (!menuOpen) return;
     closeButtonRef.current?.focus();
 
+    const body = document.body;
+    const lockedPath = window.location.pathname;
+    const scrollY = window.scrollY;
+    const previousBodyStyles = {
+      position: body.style.position,
+      top: body.style.top,
+      right: body.style.right,
+      left: body.style.left,
+      width: body.style.width,
+      overflow: body.style.overflow,
+    };
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setMenuOpen(false);
     };
     document.addEventListener('keydown', onKeyDown);
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    Object.assign(body.style, {
+      position: 'fixed',
+      top: `-${scrollY}px`,
+      right: '0',
+      left: '0',
+      width: '100%',
+      overflow: 'hidden',
+    });
 
     return () => {
       document.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = previousOverflow;
+      Object.assign(body.style, previousBodyStyles);
+      if (window.location.pathname === lockedPath) window.scrollTo(0, scrollY);
     };
   }, [menuOpen]);
 
@@ -117,9 +136,9 @@ export function Navbar({
           role="dialog"
           aria-modal="true"
           aria-label="Menu principal"
-          className="bg-ink-950 fixed inset-0 z-50 flex flex-col lg:hidden"
+          className="bg-ink-950 fixed inset-0 z-50 flex min-h-0 flex-col overflow-hidden lg:hidden"
         >
-          <div className="flex h-20 items-center justify-between px-6">
+          <div className="flex h-20 shrink-0 items-center justify-between px-6">
             <Logo tone="light" />
             <button
               ref={closeButtonRef}
@@ -134,32 +153,34 @@ export function Navbar({
 
           <nav
             aria-label="Navigation principale"
-            className="flex flex-1 flex-col justify-center px-6"
+            className="flex min-h-0 flex-1 flex-col overflow-y-auto px-6"
           >
-            <ul className="space-y-6">
-              {primaryNav.map((item) => (
-                <li key={item.href}>
-                  <a
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="font-display text-ivory hover:text-brass-300 text-3xl transition-colors"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <div className="my-auto py-8">
+              <ul className="space-y-6">
+                {primaryNav.map((item) => (
+                  <li key={item.href}>
+                    <a
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className="font-display text-ivory hover:text-brass-300 text-3xl transition-colors"
+                    >
+                      {item.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
 
-            <Link
-              to={ROUTES.reservation}
-              onClick={() => setMenuOpen(false)}
-              className={cn(
-                buttonClasses({ variant: 'primary', size: 'md' }),
-                'mt-12 w-full',
-              )}
-            >
-              Réserver un séjour
-            </Link>
+              <Link
+                to={ROUTES.reservation}
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  buttonClasses({ variant: 'primary', size: 'md' }),
+                  'mt-12 w-full',
+                )}
+              >
+                Réserver un séjour
+              </Link>
+            </div>
           </nav>
         </div>
       ) : null}
