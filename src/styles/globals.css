@@ -404,6 +404,15 @@
     filter: brightness(0.78) saturate(0.75);
     will-change: transform, filter;
   }
+  .world-film-scene-image > .living-material {
+    transform: translate3d(0, var(--local-shift), 0) scale(var(--scene-scale));
+    filter: brightness(0.78) saturate(0.75);
+    will-change: transform, filter;
+  }
+  .world-film-scene-image > .living-material img {
+    transform: none;
+    filter: none;
+  }
   .world-film-scene-image::after {
     background: linear-gradient(0deg, rgba(7, 7, 7, 0.84), transparent 65%);
     content: '';
@@ -1129,9 +1138,7 @@
     min-height: min(82svh, 58rem);
     place-items: center;
     overflow: hidden;
-    background:
-      linear-gradient(180deg, rgba(6, 15, 17, 0.15), rgba(6, 15, 17, 0.85)),
-      url('/images/spa/baths-still.webp') center / cover;
+    background: #0c1111;
     color: #eef2ef;
   }
   .world-chapter-waterline::before {
@@ -1149,14 +1156,10 @@
     position: absolute;
     top: 48%;
     left: 0;
-    width: 200%;
-    height: 5rem;
-    background: repeating-radial-gradient(
-      ellipse at 50% 0,
-      rgba(213, 237, 234, 0.18) 0 1px,
-      transparent 2px 17px
-    );
-    animation: waterline-drift 12s linear infinite;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    background: rgba(216, 240, 239, 0.28);
   }
   .world-chapter-waterline > div {
     position: relative;
@@ -1178,11 +1181,6 @@
     font-size: 0.65rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-  }
-  @keyframes waterline-drift {
-    to {
-      transform: translate3d(-50%, 0, 0);
-    }
   }
   .world-chapter-next {
     display: flex;
@@ -1296,13 +1294,58 @@
     .world-index-link {
       transition: none;
     }
-    .world-chapter-waterline > span {
-      animation: none;
-    }
   }
 }
 
-/* Raccord vers Les Bains — une membrane liquide remplace la coupe de page. */
+.living-material {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #171614;
+}
+.living-material.absolute {
+  position: absolute;
+  inset: 0;
+}
+.living-material > img,
+.living-material > canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+}
+.living-material > canvas {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+.living-material > canvas[data-ready='true'] {
+  opacity: 1;
+}
+.living-material[data-quality='essential'] > canvas {
+  display: none;
+}
+.world-chapter-water-media {
+  position: absolute;
+  inset: 0;
+}
+.world-chapter-water-media::after {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 15, 17, 0.16),
+    rgba(6, 15, 17, 0.34) 46%,
+    rgba(6, 15, 17, 0.78)
+  );
+  pointer-events: none;
+  content: '';
+}
+
+/* Raccord vers Les Bains — matière calculée, repli photographique honnête. */
 .water-transition {
   position: fixed;
   z-index: 100;
@@ -1317,185 +1360,98 @@
   visibility: visible;
   pointer-events: auto;
 }
-.water-transition-lens,
-.water-transition-caustics,
-.water-transition-sheet {
-  position: absolute;
-  inset-block: 0;
-}
-.water-transition-lens {
-  z-index: -1;
-  inset-inline: 0;
-  background: rgba(21, 42, 45, 0.2);
-  backdrop-filter: blur(0) saturate(1);
-}
-.water-transition[data-phase='closing'] .water-transition-lens {
-  animation: water-lens-close 980ms cubic-bezier(0.72, 0, 0.2, 1) both;
-}
-.water-transition[data-phase='opening'] .water-transition-lens {
-  animation: water-lens-open 1180ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.water-transition-sheet {
-  top: -4%;
-  bottom: -4%;
-  width: 54%;
-  background:
-    radial-gradient(
-      ellipse at 30% 15%,
-      rgba(225, 245, 242, 0.44),
-      transparent 20%
-    ),
-    radial-gradient(
-      ellipse at 78% 62%,
-      rgba(164, 208, 209, 0.27),
-      transparent 25%
-    ),
-    repeating-linear-gradient(
-      97deg,
-      rgba(235, 249, 247, 0.08) 0 1px,
-      transparent 2px 19px
-    ),
-    linear-gradient(110deg, #7da1a1, #3e6063 44%, #8ca8a5 72%, #29484d);
-  box-shadow: inset 0 0 8rem rgba(8, 28, 33, 0.48);
-  will-change: transform;
-}
-.water-transition-sheet-left {
-  left: -2%;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    98.5% 7%,
-    100% 15%,
-    97% 27%,
-    99.5% 38%,
-    96.8% 51%,
-    99% 63%,
-    97.4% 78%,
-    100% 91%,
-    97.5% 100%,
-    0 100%
-  );
-}
-.water-transition-sheet-right {
-  right: -2%;
-  clip-path: polygon(
-    1.5% 0,
-    100% 0,
-    100% 100%,
-    2% 100%,
-    0 90%,
-    2.8% 75%,
-    0.5% 60%,
-    3% 48%,
-    0 34%,
-    2.5% 19%
-  );
-}
-.water-transition-sheet i {
+.water-curtain,
+.water-curtain-canvas,
+.water-curtain-fallback,
+.water-curtain-shadow {
   position: absolute;
   inset: 0;
-  opacity: 0.42;
-  background: repeating-radial-gradient(
-    ellipse at 50% 0,
-    transparent 0 18px,
-    rgba(233, 248, 246, 0.2) 19px 20px,
-    transparent 21px 43px
-  );
-  transform: skewX(-2deg);
 }
-.water-transition[data-phase='closing'] .water-transition-sheet {
-  animation: water-curtain-fall 980ms cubic-bezier(0.72, 0, 0.2, 1) both;
-}
-.water-transition[data-phase='opening'] .water-transition-sheet-left {
-  animation: water-curtain-part-left 1180ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.water-transition[data-phase='opening'] .water-transition-sheet-right {
-  animation: water-curtain-part-right 1180ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-.water-transition-caustics {
+.water-curtain-canvas {
   z-index: 2;
-  inset-inline: 0;
-  opacity: 0;
-  background: repeating-linear-gradient(
-    105deg,
-    transparent 0 7%,
-    rgba(225, 247, 243, 0.16) 8%,
-    transparent 10% 17%
-  );
-  mix-blend-mode: screen;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
 }
-.water-transition[data-phase='closing'] .water-transition-caustics {
-  animation: water-caustics 980ms ease-out both;
+.water-curtain-shadow {
+  z-index: 1;
+  opacity: 0;
+  background: rgba(18, 24, 23, 0.24);
+  backdrop-filter: blur(1px) saturate(0.82);
+  transition: opacity 700ms ease;
+}
+.water-curtain[data-phase='closing'] .water-curtain-shadow,
+.water-curtain[data-phase='opening'] .water-curtain-shadow {
+  opacity: 1;
+}
+.water-curtain-fallback {
+  z-index: 3;
+  display: none;
+  overflow: hidden;
+}
+.water-curtain-fallback span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 51%;
+  background-image:
+    linear-gradient(rgba(20, 25, 23, 0.16), rgba(20, 25, 23, 0.36)),
+    url('/images/suites/chambre-signature-bath-v4-1024.webp');
+  background-size:
+    200% 100%,
+    200% 100%;
+  will-change: transform;
+}
+.water-curtain-fallback span:first-child {
+  left: 0;
+  background-position: left center;
+}
+.water-curtain-fallback span:last-child {
+  right: 0;
+  background-position: right center;
+}
+.water-curtain[data-fallback='true'] .water-curtain-canvas {
+  display: none;
+}
+.water-curtain[data-fallback='true'] .water-curtain-fallback {
+  display: block;
+}
+.water-curtain[data-fallback='true'][data-phase='closing']
+  .water-curtain-fallback {
+  animation: bath-fallback-arrive 1320ms cubic-bezier(0.72, 0, 0.2, 1) both;
+}
+.water-curtain[data-fallback='true'][data-phase='opening']
+  .water-curtain-fallback
+  span:first-child {
+  animation: bath-fallback-left 1680ms var(--ease-suave) both;
+}
+.water-curtain[data-fallback='true'][data-phase='opening']
+  .water-curtain-fallback
+  span:last-child {
+  animation: bath-fallback-right 1680ms var(--ease-suave) both;
 }
 body[data-cinematic-transition='water'] {
   overflow: hidden;
   cursor: wait;
 }
-@keyframes water-curtain-fall {
-  0% {
-    transform: translate3d(0, -105%, 0) scaleY(0.84);
-  }
-  72% {
-    transform: translate3d(0, 1.2%, 0) scaleY(1.02);
-  }
-  100% {
-    transform: translate3d(0, 0, 0) scaleY(1);
-  }
-}
-@keyframes water-curtain-part-left {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  24% {
-    transform: translate3d(-1.5%, 0, 0);
-  }
-  100% {
-    transform: translate3d(-105%, 0, 0);
-  }
-}
-@keyframes water-curtain-part-right {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-  24% {
-    transform: translate3d(1.5%, 0, 0);
-  }
-  100% {
-    transform: translate3d(105%, 0, 0);
-  }
-}
-@keyframes water-lens-close {
-  to {
-    background: rgba(21, 42, 45, 0.72);
-    backdrop-filter: blur(12px) saturate(0.72);
-  }
-}
-@keyframes water-lens-open {
+@keyframes bath-fallback-arrive {
   from {
-    background: rgba(21, 42, 45, 0.65);
-    backdrop-filter: blur(10px) saturate(0.75);
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
   }
   to {
-    background: transparent;
-    backdrop-filter: blur(0) saturate(1);
+    opacity: 1;
+    clip-path: inset(0);
   }
 }
-@keyframes water-caustics {
-  0% {
-    opacity: 0;
-    transform: translate3d(0, -15%, 0);
-  }
-  55% {
-    opacity: 0.75;
-  }
-  100% {
-    opacity: 0.16;
-    transform: translate3d(-4%, 12%, 0);
+@keyframes bath-fallback-left {
+  to {
+    transform: translate3d(-103%, 0, 0);
   }
 }
-@media (max-width: 767px) {
-  .water-transition-sheet {
-    width: 58%;
+@keyframes bath-fallback-right {
+  to {
+    transform: translate3d(103%, 0, 0);
   }
 }
 @media (prefers-reduced-motion: reduce) {

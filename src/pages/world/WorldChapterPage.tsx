@@ -2,6 +2,7 @@ import { ArrowLink } from '@/components/ui/ArrowLink';
 import { Seo } from '@/components/seo';
 import { responsiveImageProps } from '@/utils/responsive-image';
 import { worldChapters } from './world-data';
+import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
 
 export function WorldChapterPage({
   chapter,
@@ -63,6 +64,12 @@ export function WorldChapterPage({
             className="world-chapter-waterline"
             aria-label="La ligne d’eau"
           >
+            <LivingMaterial
+              src="/images/spa/baths-still.webp"
+              alt="Bassin minéral des Bains dans la lumière filtrée"
+              mode="still-water"
+              className="world-chapter-water-media"
+            />
             <span aria-hidden="true" />
             <div>
               <p>La ligne d’eau</p>

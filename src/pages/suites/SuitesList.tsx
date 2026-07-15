@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react';
 
 import { Seo } from '@/components/seo';
+import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
 import { SuiteCard } from '@/components/suites';
 import { SuiteFilters, type KindFilter } from '@/components/suites';
 import { Container } from '@/components/ui/Container';
@@ -40,20 +41,30 @@ export function SuitesList() {
     <>
       <Seo {...pageMeta.suites} />
 
-      <section className="bg-ink-950 text-ivory relative overflow-hidden">
-        <div aria-hidden="true" className="absolute inset-0">
-          <div className="from-ink-900 via-ink-950 to-foret-900 absolute inset-0 bg-gradient-to-b" />
-          <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_70%_10%,rgba(184,154,91,0.16),transparent_60%)]" />
-        </div>
-        <Container className="relative z-10 pt-36 pb-16 md:pt-44 md:pb-20">
+      <section className="suites-cinematic-hero bg-ink-950 text-ivory relative min-h-[88svh] overflow-hidden">
+        <LivingMaterial
+          src="/images/suites/chambre-signature-morning-v4.webp"
+          alt="Chambre aux boiseries sombres, lin froissé et voilage soulevé par l’air du jardin"
+          mode="fabric"
+          className="absolute inset-0"
+          priority
+        />
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,7,.62),rgba(8,8,7,.06)_58%,transparent_78%),linear-gradient(0deg,rgba(8,8,7,.5),transparent_52%)]"
+        />
+        <Container className="relative z-10 flex min-h-[88svh] items-end pt-36 pb-16 md:pb-24">
           <div className="max-w-2xl">
-            <SectionLabel tone="light">Nos hébergements</SectionLabel>
-            <h1 className="mt-6 text-5xl md:text-6xl">Suites &amp; Chambres</h1>
+            <SectionLabel tone="light">II · Les pièces</SectionLabel>
+            <h1 className="mt-6 text-5xl leading-[.94] md:text-7xl">
+              Une chambre garde
+              <br />
+              <em className="text-brass-300 font-normal">la lumière.</em>
+            </h1>
             <Ornament tone="light" className="mt-7" />
-            <p className="text-ivory/70 mt-8 leading-relaxed">
-              Onze clés seulement. Chaque chambre, chaque suite possède son
-              caractère, ses matières et sa lumière — comme autant de pièces
-              d’une même demeure privée.
+            <p className="text-ivory/72 mt-8 max-w-lg leading-relaxed">
+              À 08 h 30, le lin bouge de deux centimètres. Le noyer reste dans
+              l’ombre. Un livre attend à l’endroit où la pluie devient visible.
             </p>
           </div>
         </Container>
