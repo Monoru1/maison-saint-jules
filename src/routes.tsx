@@ -23,7 +23,13 @@ export const routes: RouteObject[] = [
     element: <RootLayout />,
     children: [
       { index: true, element: <WorldHome /> },
-      { path: 'maison', element: <WorldChapterPage chapter="maison" /> },
+      {
+        path: 'maison',
+        lazy: async () => {
+          const { MaisonPage } = await import('@/pages/world/MaisonPage');
+          return { Component: MaisonPage };
+        },
+      },
       { path: 'bains', element: <WorldChapterPage chapter="bains" /> },
       { path: 'cabinet', element: <WorldChapterPage chapter="cabinet" /> },
       { path: 'jardin', element: <WorldChapterPage chapter="jardin" /> },

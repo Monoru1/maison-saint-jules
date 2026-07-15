@@ -1,13 +1,17 @@
-import { ArrowLink } from '@/components/ui/ArrowLink';
+import type { ReactNode } from 'react';
+
+import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
 import { Seo } from '@/components/seo';
+import { ArrowLink } from '@/components/ui/ArrowLink';
 import { responsiveImageProps } from '@/utils/responsive-image';
 import { worldChapters } from './world-data';
-import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
 
 export function WorldChapterPage({
   chapter,
+  children,
 }: {
   chapter: keyof typeof worldChapters;
+  children?: ReactNode;
 }) {
   const item = worldChapters[chapter];
   return (
@@ -59,6 +63,7 @@ export function WorldChapterPage({
           </figure>
           <blockquote>{item.quote}</blockquote>
         </section>
+        {children}
         {chapter === 'bains' ? (
           <section
             className="world-chapter-waterline"
