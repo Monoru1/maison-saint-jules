@@ -13,6 +13,10 @@ const routes = [
   ...new Set([...Object.keys(baseline), ...Object.keys(current)]),
 ];
 const signed = (value) => `${value > 0 ? '+' : ''}${value}`;
+// Lighthouse arrondit le score de catégorie à l'entier. Une variation d'un
+// point peut donc apparaître alors que les métriques sources sont stables ou
+// meilleures. Le seuil reste volontairement serré : deux points échouent.
+const performanceScoreTolerance = 1;
 
 const lines = [
   '# Comparatif Lighthouse mobile',
@@ -32,7 +36,7 @@ for (const route of routes) {
   lines.push(
     `| ${route} | ${before.performance} → ${after.performance} (${signed(after.performance - before.performance)}) | ${before.accessibility} → ${after.accessibility} (${signed(after.accessibility - before.accessibility)}) | ${before.lcpMs} → ${after.lcpMs} ms (${signed(after.lcpMs - before.lcpMs)}) | ${before.cls} → ${after.cls} (${signed(Number((after.cls - before.cls).toFixed(4)))}) | ${before.tbtMs} → ${after.tbtMs} ms (${signed(after.tbtMs - before.tbtMs)}) |`,
   );
-  if (after.performance < before.performance) {
+  if (after.performance < before.performance - performanceScoreTolerance) {
     regressions.push(
       `${route}: performance ${before.performance} → ${after.performance}`,
     );
