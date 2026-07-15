@@ -33,11 +33,16 @@ describe('CinematicPageTransition', () => {
       </MemoryRouter>,
     );
 
-    fireEvent.click(screen.getByRole('link', { name: 'Les Bains' }));
-    expect(container.querySelector('.water-transition')).toHaveAttribute(
-      'data-phase',
-      'closing',
-    );
+    await act(async () => {
+      fireEvent.click(screen.getByRole('link', { name: 'Les Bains' }));
+      await Promise.resolve();
+    });
+    await vi.waitFor(() => {
+      expect(container.querySelector('.water-transition')).toHaveAttribute(
+        'data-phase',
+        'closing',
+      );
+    });
     expect(screen.queryByText('La pièce d’eau')).not.toBeInTheDocument();
 
     await act(async () => {

@@ -1,9 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, type ComponentType } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { WaterCurtain } from '@/components/cinematic/WaterCurtain';
 import { waterCurtainTiming } from '@/components/cinematic/water-curtain-timing';
+import type { WaterCurtainPhase } from '@/components/cinematic/WaterCurtain';
 
 type TransitionPhase = 'idle' | 'closing' | 'opening';
+type WaterCurtainComponent = ComponentType<{ phase: WaterCurtainPhase }>;
+
+let waterCurtainModule: Promise<{
+  WaterCurtain: WaterCurtainComponent;
+}> | null = null;
+
+function loadWaterCurtain() {
+  waterCurtainModule ??= import('@/components/cinematic/WaterCurtain');
+  return waterCurtainModule;
+}
 
 function isPlainInternalClick(event: MouseEvent, anchor: HTMLAnchorElement) {
   return (
@@ -28,30 +38,49 @@ export function CinematicPageTransition() {
   const navigate = useNavigate();
   const [phase, setPhase] = useState<TransitionPhase>('idle');
   const [destination, setDestination] = useState<string | null>(null);
+  const [Curtain, setCurtain] = useState<WaterCurtainComponent | null>(null);
+  const armed = useRef(false);
 
   useEffect(() => {
-    const onClick = (event: MouseEvent) => {
-      const target = event.target;
+    let cancelled = false;
+
+    const findBainsAnchor = (target: EventTarget | null) => {
       const anchor =
         target instanceof Element
           ? target.closest<HTMLAnchorElement>('a[href]')
           : null;
+      if (!anchor) return null;
+      const destination = new URL(anchor.href, window.location.href);
+      return destination.origin === window.location.origin &&
+        destination.pathname === '/bains'
+        ? { anchor, destination }
+        : null;
+    };
 
-      if (!anchor || !isPlainInternalClick(event, anchor) || phase !== 'idle')
+    const warmTransition = (event: Event) => {
+      if (findBainsAnchor(event.target)) void loadWaterCurtain();
+    };
+
+    const onClick = (event: MouseEvent) => {
+      const target = event.target;
+      const match = findBainsAnchor(target);
+      const anchor = match?.anchor ?? null;
+
+      if (
+        !anchor ||
+        !match ||
+        !isPlainInternalClick(event, anchor) ||
+        phase !== 'idle' ||
+        armed.current
+      )
         return;
 
-      const destination = new URL(anchor.href, window.location.href);
+      const { destination } = match;
       const reducedMotion = window.matchMedia(
         '(prefers-reduced-motion: reduce)',
       ).matches;
 
-      if (
-        destination.origin !== window.location.origin ||
-        destination.pathname !== '/bains' ||
-        location.pathname === '/bains'
-      ) {
-        return;
-      }
+      if (location.pathname === '/bains') return;
 
       event.preventDefault();
       if (reducedMotion) {
@@ -61,15 +90,30 @@ export function CinematicPageTransition() {
         return;
       }
 
-      setDestination(
-        `${destination.pathname}${destination.search}${destination.hash}`,
-      );
-      setPhase('closing');
+      const nextPath = `${destination.pathname}${destination.search}${destination.hash}`;
+      armed.current = true;
       document.body.dataset.cinematicTransition = 'water';
+      void loadWaterCurtain()
+        .then(({ WaterCurtain }) => {
+          if (cancelled) return;
+          setCurtain(() => WaterCurtain);
+          setDestination(nextPath);
+          setPhase('closing');
+        })
+        .catch(() => {
+          armed.current = false;
+          delete document.body.dataset.cinematicTransition;
+          if (!cancelled) void navigate(nextPath);
+        });
     };
 
+    document.addEventListener('pointerover', warmTransition, true);
+    document.addEventListener('focusin', warmTransition, true);
     document.addEventListener('click', onClick, true);
     return () => {
+      cancelled = true;
+      document.removeEventListener('pointerover', warmTransition, true);
+      document.removeEventListener('focusin', warmTransition, true);
       document.removeEventListener('click', onClick, true);
     };
   }, [location.pathname, navigate, phase]);
@@ -88,6 +132,8 @@ export function CinematicPageTransition() {
     const timer = window.setTimeout(() => {
       setPhase('idle');
       setDestination(null);
+      setCurtain(null);
+      armed.current = false;
       delete document.body.dataset.cinematicTransition;
     }, waterCurtainTiming.opening);
     return () => window.clearTimeout(timer);
@@ -102,7 +148,7 @@ export function CinematicPageTransition() {
 
   return (
     <div className="water-transition" data-phase={phase} aria-hidden="true">
-      <WaterCurtain phase={phase} />
+      {Curtain ? <Curtain phase={phase} /> : null}
     </div>
   );
 }
