@@ -51,7 +51,7 @@ export function SuitesList() {
         />
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,7,.8),rgba(8,8,7,.18)_62%,rgba(8,8,7,.08)),linear-gradient(0deg,rgba(8,8,7,.72),transparent_55%)]"
+          className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,7,.62),rgba(8,8,7,.06)_58%,transparent_78%),linear-gradient(0deg,rgba(8,8,7,.5),transparent_52%)]"
         />
         <Container className="relative z-10 flex min-h-[88svh] items-end pt-36 pb-16 md:pb-24">
           <div className="max-w-2xl">
