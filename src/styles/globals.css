@@ -1304,6 +1304,10 @@
   overflow: hidden;
   background: #171614;
 }
+.living-material.absolute {
+  position: absolute;
+  inset: 0;
+}
 .living-material > img,
 .living-material > canvas {
   position: absolute;
