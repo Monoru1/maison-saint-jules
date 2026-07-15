@@ -6,7 +6,7 @@ import { ROUTES } from '@/config/routes';
 import { cn } from '@/utils/cn';
 
 const controlClass =
-  'w-full bg-transparent font-sans text-sm text-ivory outline-none [color-scheme:dark] placeholder:text-ivory/40';
+  'w-full bg-transparent font-sans text-base text-ivory outline-none [color-scheme:dark] placeholder:text-ivory/40';
 
 const adultsOptions = [1, 2, 3, 4, 5, 6];
 const childrenOptions = [0, 1, 2, 3, 4];

@@ -109,11 +109,16 @@ export function CinematicPageTransition() {
 
     document.addEventListener('pointerover', warmTransition, true);
     document.addEventListener('focusin', warmTransition, true);
+    document.addEventListener('touchstart', warmTransition, {
+      capture: true,
+      passive: true,
+    });
     document.addEventListener('click', onClick, true);
     return () => {
       cancelled = true;
       document.removeEventListener('pointerover', warmTransition, true);
       document.removeEventListener('focusin', warmTransition, true);
+      document.removeEventListener('touchstart', warmTransition, true);
       document.removeEventListener('click', onClick, true);
     };
   }, [location.pathname, navigate, phase]);
