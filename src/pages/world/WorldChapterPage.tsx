@@ -3,6 +3,7 @@ import { Seo } from '@/components/seo';
 import { responsiveImageProps } from '@/utils/responsive-image';
 import { worldChapters } from './world-data';
 import { LivingMaterial } from '@/components/cinematic/LivingMaterial';
+import { MaisonHistory } from './MaisonHistory';
 
 export function WorldChapterPage({
   chapter,
@@ -59,6 +60,7 @@ export function WorldChapterPage({
           </figure>
           <blockquote>{item.quote}</blockquote>
         </section>
+        {chapter === 'maison' ? <MaisonHistory /> : null}
         {chapter === 'bains' ? (
           <section
             className="world-chapter-waterline"
